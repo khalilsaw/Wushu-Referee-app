@@ -39,10 +39,10 @@
     <nav class="navbar bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="img/logo.png" alt="Bootstrap" width="120" height="auto">
+                <img src="/img/logo.png" alt="Bootstrap" width="120" height="auto">
             </a>
             <a>
-                <img src="img/logo3.png" alt="Bootstrap" width="250">
+                <img src="/img/logo3.png" alt="Bootstrap" width="250">
             </a>
             <a class="navbar-brand" href="#">
                 <form id="round-form">
@@ -68,7 +68,7 @@
                         class="bi bi-arrow-clockwise"></i></button>
             </a>
             <a class="navbar-brand" href="#">
-                <img src="img/logo2.png" alt="Bootstrap" width="120" height="auto">
+                <img src="/img/logo2.png" alt="Bootstrap" width="120" height="auto">
             </a>
         </div>
     </nav>
@@ -278,7 +278,7 @@
                 <h3>Cart pour Bleu</h3>
                 <button class="btn btn-primary" type="button"
                     onclick="incrementValuecardout_playerbleu()">
-                    <img src="img/out.png" style="width: 80px;height: 90px;margin-top: 15px;margin-bottom: 15px;">
+                    <img src="/img/out.png" style="width: 80px;height: 90px;margin-top: 15px;margin-bottom: 15px;">
                 </button>
                 <button class="btn btn-primary " type="button" onclick="incrementValuecardyellow_playerbleu()">
                     <i class="bi bi-file-earmark-fill " style="font-size: 6rem; color: yellow;"></i>
@@ -296,7 +296,7 @@
             <div class="col text-bg-danger">
                 <h3>Cart pour Rouge</h3>
                 <button class="btn btn-danger" type="button" onclick="incrementValuecardout_playerred()">
-                    <img src="img/out.png" style="width: 80px;height: 90px;margin-top: 15px;margin-bottom: 15px;">
+                    <img src="/img/out.png" style="width: 80px;height: 90px;margin-top: 15px;margin-bottom: 15px;">
                 </button>
                 &nbsp;
                 <button class="btn btn-danger" type="button" onclick="incrementValuecardyellow_playerred()">
@@ -383,94 +383,9 @@
         let billsound = new Audio('/sound/bell.mp3');
         var Valuecardout_playerbleu = 0 , Valuecardyellow_playerbleu = 0, Valuecardbleu_playerbleu = 0, Valuecardred_playerbleu = 0;
         var Valuecardout_playerred = 0 ,  Valuecardyellow_playerred = 0, Valuecardbleu_playerred = 0, Valuecardred_playerred = 0;
-        
 
-
-        // Get the URL and parse it
-        const url = new URL(window.location.href);
-        const username = url.pathname.split('/')[1];
-        const role = url.pathname.split('/')[2];
-        const roomid = url.pathname.split('/')[3];
-
-        socket.on('connect', () => {
-            console.log(`${username} connected to server as ${role} in room ${roomid}`);
-            socket.emit('login',{username,role,roomid});
-        });
-
-        socket.emit('request-values');
-
-        socket.on('receive-values', (values,p1,p2) => {
-            console.log("admin is here")
-            console.log(values);
-
-            pl1=p1;
-            pl2=p2;
-
-             resultro = findWinner(pl1,pl2);
-            
-            // Check that the values object is defined before accessing its properties
-            if (values) {
-                // Update the values for round 1
-                let cardsRound1 = document.querySelectorAll(".card-assigned-value-round1");
-                cardsRound1.forEach((card, index) => {
-                    if (values[1] && values[1][index]) {
-                        ///////////////////////:::::
-                        card.innerHTML = '-';
-                        if(values[1][index].value === "player1"){  
-                                                  
-                            card.style.backgroundColor = 'blue'
-                        } else if(values[1][index].value === "player2"){
-                            
-                            card.style.backgroundColor = 'red'
-                        } else if(values[1][index].value ==='equal'){
-                            card.style.backgroundColor = 'green'                        
-                        }
-                    }
-                    else {
-                    card.innerHTML = '-';
-                    }
-                });
-                // Update the values for round 2
-                let cardsRound2 = document.querySelectorAll(".card-assigned-value-round2");
-                cardsRound2.forEach((card, index) => {
-                    if (values[2] && values[2][index]) {
-                        if(values[2][index].value === "player1"){
-                             
-                            card.style.backgroundColor = 'blue'
-                        } else if(values[2][index].value === "player2"){
-                            
-                            card.style.backgroundColor = 'red'
-                        } else if(values[2][index].value==='equal'){
-                            card.style.backgroundColor = 'green'                        
-                        }
-                    }
-                    else {
-                    card.innerHTML = '-';
-                    }
-                });
-                // Update the values for round 3
-                let cardsRound3 = document.querySelectorAll(".card-assigned-value-round3");
-                cardsRound3.forEach((card, index) => {
-                    if (values[3] && values[3][index]) {
-                        if(values[3][index].value === "player1"){
-                             
-                            card.style.backgroundColor = 'blue'
-
-                        } else if(values[3][index].value === "player2"){
-                            
-                            card.style.backgroundColor = 'red'
-                        } else if(values[3][index].value==='equal'){
-                            card.style.backgroundColor = 'green'                        
-                        }
-                    }
-                    else {
-                    card.innerHTML = '-';
-                    }
-                });
-            }
-        });
         function showAlert(round) {
-                $("#alert-container").html(`<div class="alert alert-success" role="alert">Round : ${round}!</div>`);
+                $("#alert-container").html(`<div class="alert alert-success" role="alert">Round : ${round} !</div>`);
                 
                 var popup = document.querySelector('.popup');
                 if (popup.style.display === 'none') {
@@ -484,50 +399,56 @@
             
         }
 
-        socket.on('updates-values', (values) => {
-        console.log("admin is here")
-        console.log(values);
-    
-        // Check that the values object is defined before accessing its properties
-        if (values) {
-            // Update the values for round 1
-            let cardsRound1 = document.querySelectorAll(".card-assigned-value-round1");
-            cardsRound1.forEach((card, index) => {
-                if (values[1] && values[1][index]) {
-                    card.innerHTML = values[1][index].value;
-                } else {
+        const url = new URL(window.location.href);
+        const vurl = url.pathname.split('/')[0];
+        console.log(vurl);
+        const username = url.pathname.split('/')[1];
+        const role = url.pathname.split('/')[2];
+        const roomid = url.pathname.split('/')[3];
+
+        
+
+        socket.on('connect', () => {
+            // Get the URL and parse it
+            console.log(`${username} connected to server as ${role} in room ${roomid}`);
+            socket.emit('login',{username,role,roomid});
+        });
+
+        socket.emit('request-values');
+
+        socket.on('receive-values', (values, roomid) => {
+            console.log("admin is here");
+            console.log(values, roomid);
+
+            // Check that the values object is defined before accessing its properties
+            if (values) {
+                // Loop through all rounds
+                for (let round = 1; round <= 3; round++) {
+                // Loop through all cards for the current round
+                let cards = document.querySelectorAll(`.card-assigned-value-round${round}`);
+                cards.forEach((card, index) => {
+                    // Check if there is a value for the current card, room, and round
+                    if (values[roomid] && values[roomid][round] && values[roomid][round][index]) {
+                    // Update the card with the appropriate color
+                    let value = values[roomid][round][index].value;
+                    if (value === "player1") {
+                        card.style.backgroundColor = 'blue';
+                    } else if (value === "player2") {
+                        card.style.backgroundColor = 'red';
+                    } else if (value === 'equal') {
+                        card.style.backgroundColor = 'green';
+                    }
+                    card.innerHTML = value;
+                    } else {
+                    // If there is no value, update the card to show "-"
                     card.innerHTML = '-';
+                    }
+                });
                 }
             }
-            
-            );
-            // Update the values for round 2
-            let cardsRound2 = document.querySelectorAll(".card-assigned-value-round2");
-            cardsRound2.forEach((card, index) => {
-            if (values[2] && values[2][index]) {
-                card.innerHTML = values[2][index].value;
-            } else {
-                card.innerHTML = '-';
-            }
-            });
-            // Update the values for round 3
-            let cardsRound3 = document.querySelectorAll(".card-assigned-value-round3");
-            cardsRound3.forEach((card, index) => {
-                if (values[3] && values[3][index]) {
-                        if(values[3][index].value === "player1"){
-                            card.style.backgroundColor = 'blue'
-                        } else if(values[3][index].value === "player2"){
-                            card.style.backgroundColor = 'red'
-                        } else if(values[3][index].value===equal){
-                            card.style.backgroundColor = 'green'                        
-                        }
-                    }
-                    else {
-                    card.innerHTML = '-';
-                    }
-            });
-        }
         });
+
+
         //////////////////////////////////////////////////////////////////////////////////////////////
         const round = document.getElementById('round-select').value;
         // Emit the 'request-values' event to the server when the page loads
@@ -543,20 +464,13 @@
             rcount=0;
             bcount=0;
 
-           
+            const url3 = `${vurl}/${username}/tv/${roomid}`;
+            socket.emit('redirect-player-to-tv',url3);
+            console.log("redirect players to tv " + url3);
 
-
-            const url3 = `http://${Ipadress}:3000/tv`;
-            socket.emit('redirect-player-to-tv',url3)
-            console.log("redirect players to tv " + url3)
             // Get the selected round value
             const round = document.getElementById('round-select').value;
-      
-           
-           
-            showAlert(round)
-
-            
+            showAlert(round);
             console.log("alert shown")
 
             Valuecardout_playerred = 0;
@@ -572,7 +486,7 @@
             })
 
             // Emit the selected round value to the server
-            socket.emit('select-round', round);
+            socket.emit('select-round', (round));
         });
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -608,11 +522,13 @@
            
 
 
-            const url2 = `http://${Ipadress}:3000/tvplayers?param1=${pblue1}&param2=${pblue2}&param3=${pblue3}&param4=${radiop4}&param5=${pred1}&param6=${pred2}`;
+            const url2 = `${vurl}/${username}/tvplayers/${roomid}?param1=${pblue1}&param2=${pblue2}&param3=${pblue3}&param4=${radiop4}&param5=${pred1}&param6=${pred2}`;
             socket.emit('redirect-tv-to-players',url2)
             console.log("redirect to tv players " + url2)
 
     });
+
+    
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -744,7 +660,7 @@
 
             console.log(param1 + " " + param2 + " " +param3+ " " +param4+ " " +param5)
             
-            const url = `http://${Ipadress}:3000/winer?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;
+            const url = `${vurl}/${username}/winner/${roomid}?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;
             socket.emit('redirect-tv-to-winner',url)
             console.log("redirect the tv to winner")
         }
@@ -832,7 +748,7 @@
 
 
             
-            const url = `http://${Ipadress}:3000/winer?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;        
+            const url = `${vurl}/${username}/winner/${roomid}?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;        
             socket.emit('redirect-tv-to-winner',url)
             console.log("redirect the tv to winner")
         }
@@ -860,7 +776,7 @@
 
 
             
-            const url = `http://${Ipadress}:3000/winer?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;        
+            const url = `${vurl}/${username}/winner/${roomid}?param1=${param1}&param2=${param2}&param3=${param3}&param4=${param4}&param5=${param5}`;        
             socket.emit('redirect-tv-to-winner',url)
             console.log("redirect the tv to winner")
             

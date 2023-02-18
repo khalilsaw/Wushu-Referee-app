@@ -39,13 +39,13 @@
     <nav class="navbar bg-light">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="img/logo.png" alt="Bootstrap" width="100" height="100">
+                <img src="/img/logo.png" alt="Bootstrap" width="100" height="100">
             </a>
             <a class="navbar-brand" href="#">
-                <img src="img/logo3.png" alt="Bootstrap" width="330" height="100">
+                <img src="/img/logo3.png" alt="Bootstrap" width="330" height="100">
             </a>
             <a class="navbar-brand" href="#">
-                <img src="img/logo2.png" alt="Bootstrap" width="100" height="100">
+                <img src="/img/logo2.png" alt="Bootstrap" width="100" height="100">
             </a>
         </div>
     </nav>
@@ -135,10 +135,7 @@
             socket.emit('login',{username,role,roomid});
         });
 
-        socket.on('redirect-tv-to-winner-from-server' , (url)=>{
-            console.log(url + "from tv")
-            window.location.replace(url);
-        })
+        
 
 
         function showSubmit(winnercolor) {
@@ -182,15 +179,10 @@
                 }
             
         }
-
-       
-
-        
-
-        console.log("arbitre ==== > ")
+                   
         socket.on('selected-round', (round) => {
             selectedRound = round;
-           showAlert(selectedRound)
+            showAlert(selectedRound)
             console.log(selectedRound + " but from arbitre")
         });
         
@@ -206,13 +198,18 @@
                 return "equal"
             }
         }
-
-        // Send the value to the server when the user clicks the button
         document.getElementById('blue-button').addEventListener('click', () => {
             winner = findWinner(player1, player2);
             console.log(winner  + " in round " + selectedRound)
-  
-            
+
+            let arbitreName = username; // replace with actual arbitre name
+
+            let value = {
+                winner: winner,
+                round: selectedRound,
+                arbitre: arbitreName
+            };
+        
             if(winner === 'player1'){
                 showSubmit('Blue');
                 $("#coloring").css("background-color", "blue");
@@ -223,16 +220,10 @@
                 showSubmit('Equal');
                 $("#coloring").css("background-color", "green");
             }
-            socket.emit('send-value', winner, selectedRound , player1 , player2) ;
-                
-         });
-            socket.emit('login', 'arbitre', 'arbitre');
 
-
-
-
-
-
+            console.log(value.winner +" "+ value.round +" "+ value.arbitreName +" "+ roomid + " but from arbitre") ;
+            socket.emit('send-value', value, roomid);
+        });
 
 
         function incrementValuebleu() {
@@ -269,6 +260,12 @@
             document.getElementById("player1area").innerHTML = player1;
 
         }
+
+
+        /* socket.on('redirect-tv-to-winner-from-server' , (url)=>{
+            console.log(url + "from tv")
+            window.location.replace(url);
+        }) */
     </script>
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
