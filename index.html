@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Referee App</title>
+	</head>
+	<body>
+		<div class="join-container">
+			<header class="join-header">
+				<h1><i class="fas fa-smile"></i>Referee App</h1>
+			</header>
+			<main class="join-main">
+				<form id="join-form">
+					<div class="form-control">
+						<label for="username">Username</label>
+						<input
+							type="text"
+							name="username"
+							id="username"
+							placeholder="Enter username..."
+							required
+						/>
+						<label style="padding-top: 10px;" for="roomid">Room</label>
+						<input
+							type="text"
+							name="roomid"
+							id="roomid"
+							placeholder="Enter room id..."
+							required
+						/>
+					</div>
+					<div class="form-control">
+						<label for="role">Role</label>
+						<select name="role" id="role">
+							<option value="admin">admin</option>
+							<option value="arbitre">arbitre</option>
+							<option value="tv">tv</option>
+							<option value="tvplayers">tvplayers</option>
+						</select>
+					</div>
+					<button type="submit" class="btn">Join Chat</button>
+					<button type="button" class="btn" id="generate-room">Generate Room ID</button>
+				</form>
+			</main>
+		</div>
+		<script src="socket.io/socket.io.js"></script>
+		<script>
+			const socket = io();
+			
+			function generateRoomId() {
+				const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+				let result = '';
+				for (let i = 0; i < 6; i++) {
+					result += characters.charAt(Math.floor(Math.random() * characters.length));
+				}
+				return result;
+			}
+			
+			
+			const joinForm = document.getElementById('join-form');
+			const generateRoomButton = document.getElementById('generate-room');
+			
+			joinForm.addEventListener('submit', (event) => {
+				event.preventDefault(); // prevent the form from submitting
+				const username = document.getElementById('username').value;
+				const role = document.getElementById('role').value;
+				const roomid = document.getElementById('roomid').value;
+				socket.emit('check-room', { roomid, role }, (response) => {
+					if (response.exists) {
+						const url = `${window.location.href}/${username}/${role}/${roomid}`;
+						window.location.href = url; // redirect to the new URL
+					} else {
+						alert('Room does not exist');
+					}
+				});
+			});
+			
+			generateRoomButton.addEventListener('click', (event) => {
+				event.preventDefault();
+				const roomid = generateRoomId();
+				socket.emit('generated-room-stored',roomid);
+				document.getElementById('roomid').value = roomid;
+			});
+		</script>
+	</body>
+	
+</html>

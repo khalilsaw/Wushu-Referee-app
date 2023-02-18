@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+
+<body class="p-3 mb-2 bg-secondary text-white">
+    <section id="alert-container" style="font-size: 60px; font-family: monospace; text-align: center;"></section>
+    <nav class="navbar bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="img/logo.png" alt="Bootstrap" width="120" height="120">
+            </a>
+            <a class="navbar-brand" href="#">
+                <img src="img/logo3.png" alt="Bootstrap" width="320" height="120">
+            </a>
+            <a class="navbar-brand" href="#">
+                <img src="img/logo2.png" alt="Bootstrap" width="120" height="120">
+            </a>
+
+        </div>
+    </nav>
+    <br>
+    <div class="container text-center">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <span id="timer" style="font-size: 19rem;">02:00</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Connect to the server via socket.io
+        const socket = io(``);
+
+        // Get the URL and parse it
+        const url = new URL(window.location.href);
+        const username = url.pathname.split('/')[1];
+        const role = url.pathname.split('/')[2];
+        const roomid = url.pathname.split('/')[3];
+
+        socket.on('connect', () => {
+            console.log(`${username} connected to server as ${role} in room ${roomid}`);
+            socket.emit('login',{username,role,roomid});
+        });
+
+        //////////////////////////////////////////////////////////////////////////////////
+       
+        // Declare a variable to store the timer interval
+        let timerInterval;
+
+        // Declare a variable to store the timer value in seconds
+        let timerValue = 120;
+
+        // Declare a function to start the timer
+        function startTimer() {
+            // If the timer interval is already set, do nothing
+            if (timerInterval) {
+                return;
+            }
+
+            // Set the timer interval to decrement the timer value by 1 second every 1000 milliseconds (1 second)
+            timerInterval = setInterval(() => {
+                // Decrement the timer value by 1 second
+                timerValue--;
+
+                // If the timer value is less than or equal to 0, clear the interval and reset the timer value to 0
+                if (timerValue <= 0) {
+                    clearInterval(timerInterval);
+                    timerValue = 0;
+                }
+
+                // Update the timer element to display the current timer value in the format mm:ss
+                timer.innerText = `${('0' + Math.floor(timerValue / 60)).slice(-2)}:${('0' + timerValue % 60).slice(-2)}`;
+            }, 1000);
+
+            
+        }
+
+        // Declare a function to pause the timer
+        function pauseTimer() {
+            // If the timer interval is not set, do nothing
+            if (!timerInterval) {
+                return;
+            }
+
+            // Clear the timer interval
+            clearInterval(timerInterval);
+
+                // Reset the timer interval variable
+                timerInterval = null;
+        }
+
+        // Declare a function to restart the timer
+        function restartTimer() {
+            // Clear the timer interval
+            clearInterval(timerInterval);
+
+            // Reset the timer interval variable
+            timerInterval = null;
+
+            // Reset the timer value to 120 seconds
+            timerValue = 120;
+
+            // Update the timer element to display the reset timer value in the format mm:ss
+            timer.innerText = `${('0' + Math.floor(timerValue / 60)).slice(-2)}:${('0' + timerValue % 60).slice(-2)}`;
+        }
+
+
+       
+        socket.on('start-timer', startTimer);
+        socket.on('pause-timer', pauseTimer);
+        socket.on('restart-timer', restartTimer);
+
+        socket.on('redirect-tv-to-winner-from-server' , (url)=>{
+            console.log(url + "from tv")
+            window.location.replace(url);
+        })
+
+
+        socket.on('redirect-tv-to-players-from-server' , (url2)=>{
+            console.log(url2 + "from admin")
+            window.location.replace(url2);
+        })
+      
+
+        
+      </script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
