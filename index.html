@@ -57,10 +57,14 @@
 			const socket = io();
 			
 			function generateRoomId() {
-				const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+				const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 				let result = '';
-				for (let i = 0; i < 6; i++) {
+				for (let i = 0; i < 2; i++) {
 					result += characters.charAt(Math.floor(Math.random() * characters.length));
+				}
+				const digits = '0123456789';
+				for (let i = 0; i < 2; i++) {
+					result += digits.charAt(Math.floor(Math.random() * digits.length));
 				}
 				return result;
 			}
