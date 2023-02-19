@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/:username/:role/:roomid', (req, res) => {
+app.get(':username/:role/:roomid', (req, res) => {
   const { username, role, roomid } = req.params;
   switch (role) {
     case 'admin':
@@ -76,6 +76,7 @@ io.on('connection', (socket) => {
     // Your code for checking the room can go here
     const roomExists = rooms.includes(roomid); // set this variable to true or false based on your check
     callback({ exists: roomExists });
+    
   });
 
   // store rooms
@@ -85,75 +86,28 @@ io.on('connection', (socket) => {
 
   // when a user gets connected
   socket.on('login', ({ username, role, roomid }) => {
+    
     console.log(`${username} connected to server as ${role} in room ${roomid} //////// ${socket.id}`);
+
     // Add the user to the specified room
     socket.join(roomid);
+
     // Store the user's details and socket ID in the map
     users.set(username, { id: socket.id, role, roomid });
+
     // Broadcast a message to all connected users in the room
     io.to(roomid).emit('message', `${username} (${role}) has joined the chat in room ${roomid}`);
-
-    /* --------------------------------------------------------------------------------------- */
-
-
-
     
     socket.on('send-value', (value, roomid) => {
       console.log("Value received: " + JSON.stringify(value));
     
-      if(!values[roomid]) {
-          values[roomid] = {};
-      }
-    
-      let round = value.round;
-      let arbitreName = value.arbitre;
-      let winner = value.winner;
-    
-      if(!values[roomid][round]) {
-          values[roomid][round] = {};
-      }
-    
-      if(!values[roomid][round][arbitreName]) {
-          values[roomid][round][arbitreName] = [];
-      }
-    
-      values[roomid][round][arbitreName].push(winner);
-    
-      console.log(values);
-      io.to(roomid).emit('receive-values',values);
+      const round = value.round;
+      const arbitreName = value.arbitre;
+      const winner = value.winner;
+      console.log(round +" "+ arbitreName +" "+ winner +" from the server")
+              
+      io.to(roomid).emit('receive-values',{ round, arbitreName, winner });
     });
-    
-  
-    
-
-
-    /* socket.on('send-value', (winner, round, roomid) => {
-      console.log(winner + '  - with id : ' + socket.id)
-      if (!round) {
-        round = 1;
-      }
-      const userExists = values[roomid][round].some((val) => val.userId === socket.id);
-      if (!userExists) {
-        // If the user id does not exist, push a new object with the user id and value to the values object
-        values[roomid][round].push({
-          userId: socket.id,
-          value: winner,
-          round: round
-        });
-        console.log("code executed how i dont know")
-      }
-
-      console.log(values[roomid][round].userId +" "+ values[roomid][round].winner +" "+ values[roomid][round].round + " when send value");
-
-      
-      io.to(roomid).emit('receive-values',winner, round , roomid);
-      console.log(values[roomid]);
-    }); */
-
-
-
-
-
 
     //redirection code  for timer
 
@@ -234,15 +188,6 @@ io.on('connection', (socket) => {
       // Leave the room the user joined
       socket.leave(roomid);
 
-      /* console.log(users) */
-      // Filter the values object to exclude the user's id and value
-     /*  updatedValues = {
-        1: values[1].filter((val) => val.userId !== socket.id),
-        2: values[2].filter((val) => val.userId !== socket.id),
-        3: values[3].filter((val) => val.userId !== socket.id)
-      };
-      values = updatedValues; */
-      /* console.log(values) */
     });
 
   });
