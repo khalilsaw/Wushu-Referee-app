@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get(':username/:role/:roomid', (req, res) => {
+app.get('/:username/:role/:roomid', (req, res) => {
   const { username, role, roomid } = req.params;
   switch (role) {
     case 'admin':
@@ -76,6 +76,8 @@ io.on('connection', (socket) => {
     // Your code for checking the room can go here
     const roomExists = rooms.includes(roomid); // set this variable to true or false based on your check
     callback({ exists: roomExists });
+
+    
     
   });
 
@@ -86,8 +88,10 @@ io.on('connection', (socket) => {
 
   // when a user gets connected
   socket.on('login', ({ username, role, roomid }) => {
-    
+
     console.log(`${username} connected to server as ${role} in room ${roomid} //////// ${socket.id}`);
+    console.log(users);
+
 
     // Add the user to the specified room
     socket.join(roomid);

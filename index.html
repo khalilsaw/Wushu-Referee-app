@@ -76,7 +76,7 @@
 				const roomid = document.getElementById('roomid').value;
 				socket.emit('check-room', { roomid, role }, (response) => {
 					if (response.exists) {
-						const url = `${window.location.href}/${username}/${role}/${roomid}`;
+						const url = `${window.location.href}${username}/${role}/${roomid}`;
 						window.location.href = url; // redirect to the new URL
 					} else {
 						alert('Room does not exist');
