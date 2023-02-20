@@ -21,12 +21,6 @@ io.on('connection', (socket) => {
   // Declare the values object for this connection
   let values = {}; // object to store the values for each arbitre
 
-  let updatedValues = {
-    1: [],
-    2: [],
-    3: [],
-  };
-
   // store rooms
   socket.on('generated-room-stored', (roomid) => {
     rooms.push(roomid);
