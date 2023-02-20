@@ -54,7 +54,8 @@
         </a>
       </div>
     </nav>
-    <br /><br />
+    <br />
+    <br />
     <div class="container text-center">
       <div class="row" style="display: flex">
         <div class="col">
@@ -73,7 +74,10 @@
                 color: white;
               "
             >
-              <br /><br /><br /><br />
+              <br />
+              <br />
+              <br />
+              <br />
               <h5 class="card-title" id="player1area" style="font-size: 8rem">
                 0
               </h5>
@@ -96,7 +100,10 @@
                 color: white;
               "
             >
-              <br /><br /><br /><br />
+              <br />
+              <br />
+              <br />
+              <br />
               <h1 class="card-title" id="player2area" style="font-size: 8rem">
                 0
               </h1>
@@ -106,7 +113,8 @@
       </div>
       <div class="row justify-content-md-center">
         <div class="col">
-          <br /><br />
+          <br />
+          <br />
           <button
             class="btn btn-light"
             type="button"
@@ -119,7 +127,15 @@
       </div>
     </div>
 
-    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
     <div class="container text-center">
       <div class="row justify-content-md-center">
@@ -145,81 +161,81 @@
 
       let player1 = 0;
       let player2 = 0;
-      let object1 = document.getElementById("object1");
+      let object1 = document.getElementById('object1');
 
       // Get the URL and parse it
       const url = new URL(window.location.href);
-      const username = url.pathname.split("/")[1];
-      const role = url.pathname.split("/")[2];
-      const roomid = url.pathname.split("/")[3];
+      const username = url.pathname.split('/')[1];
+      const role = url.pathname.split('/')[2];
+      const roomid = url.pathname.split('/')[3];
 
-      socket.on("connect", () => {
+      socket.on('connect', () => {
         console.log(
           `${username} connected to server as ${role} in room ${roomid}`
         );
-        socket.emit("login", { username, role, roomid });
+        socket.emit('login', { username, role, roomid });
       });
 
       function showSubmit(winnercolor) {
-        $("#alert-container")
+        $('#alert-container')
           .html(`<div class="alert alert-success" id="coloring" style="
                     background-color: ${winnercolor};
                     color: #fff;
                 " role="alert"> ${winnercolor} !</div>`);
 
-        var popup = document.querySelector(".popup");
+        var popup = document.querySelector('.popup');
 
-        if (popup.style.display === "none") {
-          popup.style.display = "block";
+        if (popup.style.display === 'none') {
+          popup.style.display = 'block';
           setTimeout(function () {
-            popup.style.display = "none";
+            popup.style.display = 'none';
           }, 6000);
         } else {
-          popup.style.display = "none";
+          popup.style.display = 'none';
         }
       }
 
-      socket.on("outcardV2", (winnercolor) => {
-        console.log("out card arbitre " + winnercolor);
+      socket.on('outcardV2', (winnercolor) => {
+        console.log('out card arbitre ' + winnercolor);
         showSubmit(winnercolor);
       });
 
       function showAlert(round) {
-        $("#alert-container").html(
+        $('#alert-container').html(
           `<div class="alert alert-success" role="alert">Round : ${round} !</div>`
         );
 
-        var popup = document.querySelector(".popup");
-        if (popup.style.display === "none") {
-          popup.style.display = "block";
+        var popup = document.querySelector('.popup');
+        if (popup.style.display === 'none') {
+          popup.style.display = 'block';
           setTimeout(function () {
-            popup.style.display = "none";
+            popup.style.display = 'none';
           }, 2000);
         } else {
-          popup.style.display = "none";
+          popup.style.display = 'none';
         }
       }
 
-      socket.on("selected-round", (round) => {
+      socket.on('selected-round', (round) => {
         selectedRound = round;
         showAlert(selectedRound);
-        console.log(selectedRound + " but from arbitre");
+        console.log(selectedRound + ' but from arbitre');
       });
 
       function findWinner(player1, player2) {
-        console.log(player1 + "  " + player2);
+        console.log(player1 + '  ' + player2);
         if (player1 > player2) {
-          return "player1";
+          return 'player1';
         }
         if (player1 < player2) {
-          return "player2";
+          return 'player2';
         } else {
-          return "equal";
+          return 'equal';
         }
       }
-      document.getElementById("blue-button").addEventListener("click", () => {
+      document.getElementById('blue-button').addEventListener('click', () => {
         winner = findWinner(player1, player2);
-        console.log(winner + " in round " + selectedRound);
+        console.log(winner + ' in round ' + selectedRound);
 
         let arbitreName = username; // replace with actual arbitre name
 
@@ -229,55 +245,55 @@
           arbitre: arbitreName,
         };
 
-        if (winner === "player1") {
-          showSubmit("Blue");
-          $("#coloring").css("background-color", "blue");
-        } else if (winner === "player2") {
-          showSubmit("Red");
-          $("#coloring").css("background-color", "red");
+        if (winner === 'player1') {
+          showSubmit('Blue');
+          $('#coloring').css('background-color', 'blue');
+        } else if (winner === 'player2') {
+          showSubmit('Red');
+          $('#coloring').css('background-color', 'red');
         } else {
-          showSubmit("Equal");
-          $("#coloring").css("background-color", "green");
+          showSubmit('Equal');
+          $('#coloring').css('background-color', 'green');
         }
 
         console.log(
           value.winner +
-            " " +
+            ' ' +
             value.round +
-            " " +
+            ' ' +
             value.arbitreName +
-            " " +
+            ' ' +
             roomid +
-            " but from arbitre"
+            ' but from arbitre'
         );
         //emited event
-        socket.emit("send-value", value, roomid);
+        socket.emit('send-value', value, roomid);
       });
 
       function incrementValuebleu() {
         player1++;
-        document.getElementById("player1area").innerHTML = player1;
+        document.getElementById('player1area').innerHTML = player1;
       }
       function incrementValuered() {
         player2++;
-        document.getElementById("player2area").innerHTML = player2;
+        document.getElementById('player2area').innerHTML = player2;
       }
       window.addEventListener(
-        "keydown",
+        'keydown',
         function (event) {
           if (event.defaultPrevented) {
             return;
             4;
           }
-          if (event.code === "KeyX") {
+          if (event.code === 'KeyX') {
             player1++;
             console.log(`player 1 : ${player1}`);
-            document.getElementById("player1area").innerHTML = player1;
-          } else if (event.code === "KeyN") {
+            document.getElementById('player1area').innerHTML = player1;
+          } else if (event.code === 'KeyN') {
             // Handle "up"
             player2++;
             console.log(`player 2 : ${player2}`);
-            document.getElementById("player2area").innerHTML = player2;
+            document.getElementById('player2area').innerHTML = player2;
           }
           event.preventDefault();
         },
@@ -287,14 +303,14 @@
       //rest btn
       const resetP = () => {
         (player1 = 0), (player2 = 0);
-        document.getElementById("player2area").innerHTML = player2;
-        document.getElementById("player1area").innerHTML = player1;
+        document.getElementById('player2area').innerHTML = player2;
+        document.getElementById('player1area').innerHTML = player1;
       };
 
-      socket.on('redirect-tv-to-winner-from-server' , (url)=>{
-            console.log(url + "from tv")
-            window.location.replace(url);
-        })
+      socket.on('redirect-tv-to-winner-from-server', (url) => {
+        console.log(url + 'from tv');
+        window.location.replace(url);
+      });
     </script>
 
     <script
