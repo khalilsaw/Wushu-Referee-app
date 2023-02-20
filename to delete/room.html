@@ -16,7 +16,7 @@
   <body>
     <div class="join-container">
       <header class="join-header">
-        <h1>Referee</h1>
+        <h1>Login</h1>
       </header>
       <main class="join-main">
         <form id="join-form">
@@ -24,73 +24,56 @@
             <label for="username">Username</label>
 
             <input
-			  type="text"
+              style="font-family: 'font awesome 5 free'; font-weight: 700"
+              type="text"
               name="username"
               id="username"
-              placeholder="  username..."
+              placeholder="&#xf007; username..."
               required
             />
-			<div class="form-control">
-				<label for="role">Role</label>
-				<select
-				  name="role"
-				  id="role"
-				  style="font-family: 'font awesome 5 free'; font-weight: 700"
-				>
-				<option value="arbitre">arbitre</option>
-				<option value="admin">admin</option>
-				<option value="tv">tv</option>
-				<option value="tvplayers">tvplayers</option>
-				</select>
-			</div>
-			<div >
-				<label style="padding-top: 10px"  for="roomid">Room</label>
-				<input            
-				type="text"
-				name="roomid"
-				id="roomid"				
-				placeholder=" room id..."
-				required
-				/>
-				<button type="button" 
-				 class="btn visible" id="generate-room">
-				  Generate Room ID
-				</button>
-			</div>
+            <label style="padding-top: 10px" for="roomid">Room</label>
+            <input
+              style="font-family: 'font awesome 5 free'; font-weight: 700"
+              type="text"
+              name="roomid"
+              id="roomid"
+              placeholder=" room id..."
+              required
+            />
+            <button type="button" class="btn" id="generate-room">
+              Generate Room ID
+            </button>
+          </div>
+          <div class="form-control">
+            <label for="role">Role</label>
+            <select
+              name="role"
+              id="role"
+              style="font-family: 'font awesome 5 free'; font-weight: 700"
+            >
+              <option value="admin">admin</option>
+              <option value="arbitre">arbitre</option>
+              <option value="tv">tv</option>
+              <option value="tvplayers">tvplayers</option>
+            </select>
           </div>
           <button type="submit" id="submit-btn" class="btn">Join Chat</button>
         </form>
       </main>
     </div>
+
     <script src="socket.io/socket.io.js"></script>
     <script>
       const socket = io();
 
-	  	const divElement = document.getElementById('generate-room');
-		const roleElement = document.getElementById("role");
-		roleElement.addEventListener('change', (event) => {
-			const selectedValue = event.target.value;
-			
-			if (selectedValue === 'admin') {
-				
-					divElement.classList.remove('visible');
-				
-			} else {
-					divElement.classList.add('visible');
-			}
-		});
-
       function generateRoomId() {
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         let result = "";
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 6; i++) {
           result += characters.charAt(
             Math.floor(Math.random() * characters.length)
           );
-        }
-        const digits = "0123456789";
-        for (let i = 0; i < 2; i++) {
-          result += digits.charAt(Math.floor(Math.random() * digits.length));
         }
         return result;
       }
@@ -101,11 +84,11 @@
       joinForm.addEventListener("submit", (event) => {
         event.preventDefault(); // prevent the form from submitting
         const username = document.getElementById("username").value;
-		const role = document.getElementById("role").value;
+        const role = document.getElementById("role").value;
         const roomid = document.getElementById("roomid").value;
         socket.emit("check-room", { roomid, role }, (response) => {
           if (response.exists) {
-            const url = `${window.location.href}${username}/${role}/${roomid}`;
+            const url = `${window.location.href}/${username}/${role}/${roomid}`;
             window.location.href = url; // redirect to the new URL
           } else {
             alert("Room does not exist");
