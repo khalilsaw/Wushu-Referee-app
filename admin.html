@@ -99,111 +99,6 @@
     </nav>
     <br />
 
-    <div class="container text-center">
-      <div class="row">
-        <div class="col text-bg-primary" style="font-size: 2rem; height: 12rem">
-          <label for="bleuplayer" class="form-label">bleu player</label>
-          <input
-            type="text"
-            class="form-control form-control-lg"
-            id="bleuplayer"
-            placeholder="le nom de bleu player"
-          />
-          <h5>Association</h5>
-          <input
-            type="text"
-            class="form-control form-control-lg"
-            id="bleuplayerassociation"
-            placeholder="le nom de association"
-          />
-        </div>
-        <div class="col col-3">
-          <h3>Les catégories :</h3>
-          <select
-            class="form-select form-select-lg mb-3"
-            aria-label=".form-select-lg example"
-            id="categories"
-          >
-            <option selected>Choose...</option>
-            <option value="48kg">48kg</option>
-            <option value="52kg">52kg</option>
-            <option value="56kg">56kg</option>
-            <option value="60kg">60kg</option>
-            <option value="65kg">65kg</option>
-            <option value="70kg">70kg</option>
-            <option value="75kg">75kg</option>
-            <option value="80kg">80kg</option>
-            <option value="85kg">85kg</option>
-            <option value="90kg">90kg</option>
-            <option value="+90kg">+90kg</option>
-          </select>
-          <div class="row">
-            <div class="col">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options-outlined"
-                id="men"
-                value="men"
-                autocomplete="off"
-              />
-              <label
-                class="btn btn-outline-dark"
-                for="men"
-                style="font-size: 30px"
-              >
-                &nbsp;&nbsp;&nbsp;Men&nbsp;&nbsp;&nbsp;
-              </label>
-            </div>
-            <div class="col">
-              <input
-                type="radio"
-                class="btn-check"
-                name="options-outlined"
-                id="women"
-                value="women"
-                autocomplete="off"
-              />
-              <label
-                class="btn btn-outline-dark"
-                for="women"
-                style="font-size: 30px"
-                >Women</label
-              >
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <div
-                id="tv-player-redirection"
-                class="btn btn-dark"
-                style="margin: 10px; width: 14rem"
-              >
-                Go
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col text-bg-danger" style="font-size: 2rem; height: 12rem">
-          <label for="redplayer" class="form-label">Red player</label>
-          <input
-            type="text"
-            class="form-control form-control-lg"
-            id="redplayer"
-            placeholder="le nom de Rouge player"
-          />
-          <h5>Association</h5>
-          <input
-            type="text"
-            class="form-control form-control-lg"
-            id="redplayerassociation"
-            placeholder="le nom de association"
-          />
-          <h7 style="font-size: 2px">&nbsp;</h7>
-        </div>
-      </div>
-    </div>
-
     <hr />
     <div class="container text-center">
       <div class="row">
@@ -234,7 +129,7 @@
             class="card card-assigned-value-round1"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card1" class="" style="font-size: 40px"></p>
+            <p id="card1" class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -242,7 +137,7 @@
             class="card card-assigned-value-round1"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card2 " class="" style="font-size: 40px"></p>
+            <p id="card2 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -251,7 +146,7 @@
             id="A3R1"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card3 " class="" style="font-size: 40px"></p>
+            <p id="card3 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -260,7 +155,7 @@
             id="A4R1"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card4 " class="" style="font-size: 40px"></p>
+            <p id="card4 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -269,7 +164,7 @@
             id="A5R1"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card5" class="" style="font-size: 40px"></p>
+            <p id="card5" class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <!-- round result -->
@@ -290,7 +185,7 @@
             id="A1R2"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card1 " class="" style="font-size: 40px"></p>
+            <p id="card1 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -299,7 +194,7 @@
             id="A2R2"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card2 " class="" style="font-size: 40px"></p>
+            <p id="card2 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -308,7 +203,7 @@
             id="A3R2"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card3 " class="" style="font-size: 40px"></p>
+            <p id="card3 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -317,7 +212,7 @@
             id="A4R2"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card4" class="" style="font-size: 40px"></p>
+            <p id="card4" class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -326,7 +221,7 @@
             id="A5R2"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card5 " class="" style="font-size: 40px"></p>
+            <p id="card5 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <!-- round result -->
@@ -347,7 +242,7 @@
             id="A1R3"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card1 " class="" style="font-size: 40px"></p>
+            <p id="card1 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -356,7 +251,7 @@
             id="A2R3"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card2 " class="" style="font-size: 40px"></p>
+            <p id="card2 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -365,7 +260,7 @@
             id="A3R3"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card3 " class="" style="font-size: 40px"></p>
+            <p id="card3 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -374,7 +269,7 @@
             id="A4R3"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card4 " class="" style="font-size: 40px"></p>
+            <p id="card4 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <div class="col">
@@ -383,7 +278,7 @@
             id="A5R3"
             style="max-width: 9rem; height: 4rem; background-color: gray"
           >
-            <p id="card5 " class="" style="font-size: 40px"></p>
+            <p id="card5 " class="nom-arbitre" style="font-size: 40px">0</p>
           </div>
         </div>
         <!-- round result -->
@@ -505,6 +400,7 @@
           </button>
         </div>
       </div>
+      
       <div class="row">
         <div class="col text-bg-primary" style="font-size: 2rem">
           <span id="incrementValuecardout_playerbleu" class="backtozero"
@@ -534,6 +430,110 @@
       </div>
     </div>
     <hr />
+    <div class="container text-center">
+      <div class="row">
+        <div class="col text-bg-primary" style="font-size: 2rem; height: 12rem">
+          <label for="bleuplayer" class="form-label">bleu player</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="bleuplayer"
+            placeholder="le nom de bleu player"
+          />
+          <h5>Association</h5>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="bleuplayerassociation"
+            placeholder="le nom de association"
+          />
+        </div>
+        <div class="col col-3">
+          <h3>Les catégories :</h3>
+          <select
+            class="form-select form-select-lg mb-3"
+            aria-label=".form-select-lg example"
+            id="categories"
+          >
+            <option selected>Choose...</option>
+            <option value="48kg">48kg</option>
+            <option value="52kg">52kg</option>
+            <option value="56kg">56kg</option>
+            <option value="60kg">60kg</option>
+            <option value="65kg">65kg</option>
+            <option value="70kg">70kg</option>
+            <option value="75kg">75kg</option>
+            <option value="80kg">80kg</option>
+            <option value="85kg">85kg</option>
+            <option value="90kg">90kg</option>
+            <option value="+90kg">+90kg</option>
+          </select>
+          <div class="row">
+            <div class="col">
+              <input
+                type="radio"
+                class="btn-check"
+                name="options-outlined"
+                id="men"
+                value="men"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-dark"
+                for="men"
+                style="font-size: 30px"
+              >
+                &nbsp;&nbsp;&nbsp;Men&nbsp;&nbsp;&nbsp;
+              </label>
+            </div>
+            <div class="col">
+              <input
+                type="radio"
+                class="btn-check"
+                name="options-outlined"
+                id="women"
+                value="women"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-dark"
+                for="women"
+                style="font-size: 30px"
+                >Women</label
+              >
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div
+                id="tv-player-redirection"
+                class="btn btn-dark"
+                style="margin: 10px; width: 14rem"
+              >
+                Go
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col text-bg-danger" style="font-size: 2rem; height: 12rem">
+          <label for="redplayer" class="form-label">Red player</label>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="redplayer"
+            placeholder="le nom de Rouge player"
+          />
+          <h5>Association</h5>
+          <input
+            type="text"
+            class="form-control form-control-lg"
+            id="redplayerassociation"
+            placeholder="le nom de association"
+          />
+          <h7 style="font-size: 2px">&nbsp;</h7>
+        </div>
+      </div>
+    </div>
 
     <div class="container text-center">
       <div class="row">
@@ -657,6 +657,9 @@
         // Push the received values into the corresponding array based on the round number
         values[receivedRound].push({ receivedArbitreName, receivedWinner });
 
+        console.log("This is ur value from admin bofere assignment  " + JSON.stringify(values) );
+        //nom-arbitre
+
         let cardsRound1 = document.querySelectorAll(
           ".card-assigned-value-round1"
         );
@@ -673,9 +676,8 @@
         if (values) {
           // Update the values for round 1
           cardsRound1.forEach((card, index) => {
-            console.log(card + " " + index + " hey im here br");
             if (values[1] && values[1][index]) {
-              card.innerHTML = "-";
+              card.innerHTML = receivedArbitreName;
               if (values[1][index].receivedWinner === "player1") {
                 card.style.backgroundColor = "blue";
               } else if (values[1][index].receivedWinner === "player2") {
@@ -688,7 +690,7 @@
           // Update the values for round 2
           cardsRound2.forEach((card, index) => {
             if (values[2] && values[2][index]) {
-              card.innerHTML = "-";
+              card.innerHTML = receivedArbitreName;
               if (values[2][index].receivedWinner === "player1") {
                 card.style.backgroundColor = "blue";
               } else if (values[2][index].receivedWinner === "player2") {
@@ -701,7 +703,7 @@
           // Update the values for round 3
           cardsRound3.forEach((card, index) => {
             if (values[3] && values[3][index]) {
-              card.innerHTML = "-";
+              card.innerHTML = receivedArbitreName;
               if (values[3][index].receivedWinner === "player1") {
                 card.style.backgroundColor = "blue";
               } else if (values[3][index].receivedWinner === "player2") {

@@ -46,8 +46,8 @@ a {
 .join-main .form-control {
   margin-bottom: 30px;
 }
-.form-control{
-	padding-top: 25px;
+.form-control {
+  padding-top: 25px;
 }
 
 .join-main label {
@@ -68,8 +68,8 @@ a {
 }
 
 #username:focus {
-	outline: none;
-  }
+  outline: none;
+}
 
 .join-main #username {
   padding-right: 5px;

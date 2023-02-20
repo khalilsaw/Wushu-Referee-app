@@ -4,24 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    
+
     <link rel="stylesheet" href="css/style.css" />
     <title>Referee App</title>
   </head>
   <body>
-	<nav class="navbar bg-light" style="width: 100%; padding: 20px; height: auto; background-color: #fff; border-radius: 5px; text-align: center;">
-		<div class="container" style="display: flex; justify-content: space-between;">
-		  <a class="navbar-brand" href="#">
-			<img src="/img/logo.png" alt="Bootstrap" width="100" height="100" />
-		  </a>
-		  <a class="navbar-brand" href="#">
-			<img src="/img/logo3.png" alt="Bootstrap" width="330" height="100" />
-		  </a>
-		  <a class="navbar-brand" href="#">
-			<img src="/img/logo2.png" alt="Bootstrap" width="100" height="100" />
-		  </a>
-		</div>
-	</nav>
+    <nav
+      class="navbar bg-light"
+      style="
+        width: 100%;
+        padding: 20px;
+        height: auto;
+        background-color: #fff;
+        border-radius: 5px;
+        text-align: center;
+      "
+    >
+      <div
+        class="container"
+        style="display: flex; justify-content: space-between"
+      >
+        <a class="navbar-brand" href="#">
+          <img src="/img/logo.png" alt="Bootstrap" width="100" height="100" />
+        </a>
+        <a class="navbar-brand" href="#">
+          <img src="/img/logo3.png" alt="Bootstrap" width="330" height="100" />
+        </a>
+        <a class="navbar-brand" href="#">
+          <img src="/img/logo2.png" alt="Bootstrap" width="100" height="100" />
+        </a>
+      </div>
+    </nav>
 
     <div class="join-container">
       <main class="join-main">
@@ -30,39 +43,38 @@
             <label for="username">Username</label>
 
             <input
-			  type="text"
+              type="text"
               name="username"
               id="username"
               placeholder="  username..."
               required
             />
-			<div class="form-control">
-				<label for="role">Role</label>
-				<select
-				  name="role"
-				  id="role"
-				  style="font-family: 'font awesome 5 free'; font-weight: 700"
-				>
-				<option value="arbitre">arbitre</option>
-				<option value="admin">admin</option>
-				<option value="tv">tv</option>
-				<option value="tvplayers">tvplayers</option>
-				</select>
-			</div>
-			<div >
-				<label style="padding-top: 10px"  for="roomid">Room</label>
-				<input            
-				type="text"
-				name="roomid"
-				id="roomid"				
-				placeholder=" room id..."
-				required
-				/>
-				<button type="button" 
-				 class="btn visible" id="generate-room">
-				  Generate Room ID
-				</button>
-			</div>
+            <div class="form-control">
+              <label for="role">Role</label>
+              <select
+                name="role"
+                id="role"
+                style="font-family: 'font awesome 5 free'; font-weight: 700"
+              >
+                <option value="arbitre">arbitre</option>
+                <option value="admin">admin</option>
+                <option value="tv">tv</option>
+                                
+              </select>
+            </div>
+            <div>
+              <label style="padding-top: 10px" for="roomid">Room</label>
+              <input
+                type="text"
+                name="roomid"
+                id="roomid"
+                placeholder=" room id..."
+                required
+              />
+              <button type="button" class="btn visible" id="generate-room">
+                Generate Room ID
+              </button>
+            </div>
           </div>
           <button type="submit" id="submit-btn" class="btn">Join Chat</button>
         </form>
@@ -72,19 +84,17 @@
     <script>
       const socket = io();
 
-	  	const divElement = document.getElementById('generate-room');
-		const roleElement = document.getElementById("role");
-		roleElement.addEventListener('change', (event) => {
-			const selectedValue = event.target.value;
-			
-			if (selectedValue === 'admin') {
-				
-					divElement.classList.remove('visible');
-				
-			} else {
-					divElement.classList.add('visible');
-			}
-		});
+      const divElement = document.getElementById("generate-room");
+      const roleElement = document.getElementById("role");
+      roleElement.addEventListener("change", (event) => {
+        const selectedValue = event.target.value;
+
+        if (selectedValue === "admin") {
+          divElement.classList.remove("visible");
+        } else {
+          divElement.classList.add("visible");
+        }
+      });
 
       function generateRoomId() {
         const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -107,14 +117,15 @@
       joinForm.addEventListener("submit", (event) => {
         event.preventDefault(); // prevent the form from submitting
         const username = document.getElementById("username").value;
-		const role = document.getElementById("role").value;
+        const role = document.getElementById("role").value;
         const roomid = document.getElementById("roomid").value;
         socket.emit("check-room", { roomid, role }, (response) => {
           if (response.exists) {
             const url = `${window.location.href}${username}/${role}/${roomid}`;
             window.location.href = url; // redirect to the new URL
           } else {
-            alert("Room does not exist");
+			const uri = `${window.location.href}`;
+			window.location.href = uri; // redirect to the new URL
           }
         });
       });
@@ -126,6 +137,5 @@
         document.getElementById("roomid").value = roomid;
       });
     </script>
-	
   </body>
 </html>

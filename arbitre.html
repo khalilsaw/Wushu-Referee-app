@@ -250,6 +250,7 @@
             roomid +
             " but from arbitre"
         );
+        //emited event
         socket.emit("send-value", value, roomid);
       });
 
@@ -290,10 +291,10 @@
         document.getElementById("player1area").innerHTML = player1;
       };
 
-      /* socket.on('redirect-tv-to-winner-from-server' , (url)=>{
+      socket.on('redirect-tv-to-winner-from-server' , (url)=>{
             console.log(url + "from tv")
             window.location.replace(url);
-        }) */
+        })
     </script>
 
     <script

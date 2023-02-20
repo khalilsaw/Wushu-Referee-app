@@ -2,60 +2,25 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const http = require("http");
-const { clippingParents } = require("@popperjs/core");
 const server = http.createServer(app);
 const io = require("socket.io")(server);
-const adminRole = "admin";
 const arbitreRole = "arbitre";
 
 let rooms = [];
 const users = new Map();
 
 let numConnectedArbitr = 0; // Counter variable to track the number of connected arbitr
-const maxConnections = 5;
 let numConnectedAdmin = 0; // Counter variable to track the number of connected admin clients
-const maxAdminConnections = 1; // Maximum number of connections for admin clients
 
 app.use("/img/", express.static(path.join(__dirname, "img")));
 app.use("/socket.io", express.static(path.join(__dirname, "socket.io")));
 app.use("/sound", express.static(path.join(__dirname, "sound")));
 app.use("/css", express.static(path.join(__dirname, "css")));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
 
-app.get("/:username/:role/:roomid", (req, res) => {
-  const { username, role, roomid } = req.params;
-  switch (role) {
-    case "admin":
-      res.sendFile(path.join(__dirname, "admin.html"));
-      break;
-    case "arbitre":
-      res.sendFile(path.join(__dirname, "arbitre.html"));
-      break;
-    case "tv":
-      res.sendFile(path.join(__dirname, "tv.html"));
-      break;
-    case "winner":
-      res.sendFile(path.join(__dirname, "winner.html"));
-      break;
-    case "tvplayers":
-      res.sendFile(path.join(__dirname, "tvplayers.html"));
-      break;
-    default:
-      res.status(404).send("Invalid role specified");
-      break;
-  }
-});
 
 io.on("connection", (socket) => {
   // Declare the values object for this connection
-  /* let values = {
-    1: [],
-    2: [],
-    3: []
-  }; */
   let values = {}; // object to store the values for each arbitre
 
   let updatedValues = {
@@ -63,25 +28,80 @@ io.on("connection", (socket) => {
     2: [],
     3: [],
   };
-  // check rooms
+
+    // store rooms
+    socket.on("generated-room-stored", (roomid) => {
+      rooms.push(roomid);
+    });
+
+    //6--------------------------------------------------------------------------
+  function countRoles(usersMap) {
+    let adminCount = 0;
+    let arbitreCount = 0;
+  
+    for (const user of usersMap.values()) {
+      if (user.role === "admin") {
+        adminCount++;
+      } else if (user.role === "arbitre") {
+        arbitreCount++;
+      }
+    }
+  
+    return { adminCount, arbitreCount };
+  }
+
   socket.on("check-room", ({ roomid, role }, callback) => {
     // Check whether the room exists
     // Your code for checking the room can go here
     const roomExists = rooms.includes(roomid); // set this variable to true or false based on your check
+    // Count the number of arbitres
+    const  { adminCount } = countRoles(users);
+    const { arbitreCount } = countRoles(users);
+    console.log(roomExists + " " + role +" "+adminCount+" "+arbitreCount);
+
+
+    if(role == 'admin' && adminCount == 1){
+      console.log('admin already exist')
+      callback({ exists: false });
+      return;
+    }
+
+    if( role == 'arbitre' && arbitreCount >= 5 ){
+      console.log('arbitre max reaced')
+      callback({ exists: false });
+      return;
+    }
     callback({ exists: roomExists });
   });
 
-  // store rooms
-  socket.on("generated-room-stored", (roomid) => {
-    rooms.push(roomid);
-  });
 
+
+  //---------------------------------------------
   // when a user gets connected
   socket.on("login", ({ username, role, roomid }) => {
     console.log(
       `${username} connected to server as ${role} in room ${roomid} //////// ${socket.id}`
     );
+
     console.log(users);
+
+    const roomExists = rooms.includes(roomid);
+    const  { adminCount } = countRoles(users);
+    const { arbitreCount } = countRoles(users);
+
+    //if the room doesn't exist
+    if(!roomExists){
+      return;
+    }
+
+    //the role verifications
+    if(role == 'admin' && adminCount == 1){
+      console.log('admin already exist')
+      return;
+    }else if( role == 'arbitre' && arbitreCount >= 5 ){
+      console.log('arbitre max reaced')     
+      return;
+    }
 
     // Add the user to the specified room
     socket.join(roomid);
@@ -163,29 +183,55 @@ io.on("connection", (socket) => {
       io.to(roomid).emit("outcardV2", winnercolor);
     });
 
-    // Decrement the counter when an arbitrator disconnects
     socket.on("disconnect", () => {
-      const user = users[socket.id];
-      if (user && user.role === arbitreRole) {
-        numConnectedArbitr--;
-        console.log(
-          `Arbitrator ${socket.id} disconnected. ${numConnectedArbitr} arbitrators remaining.`
-        );
-      } else if (user && user.role === "admin") {
-        numConnectedAdmin--;
-        console.log(
-          `Admin ${socket.id} disconnected. ${numConnectedAdmin} admins remaining.`
-        );
-      } else {
-        console.log(`User ${socket.id} disconnected.`);
+      const user = users.get(username);
+      console.log(user);
+      if (user) {
+        if (user.role === arbitreRole) {
+          numConnectedArbitr--;
+          console.log(`Arbitrator ${user.id} disconnected. ${numConnectedArbitr} arbitrators remaining.`);
+        } else if (user.role === "admin") {
+          numConnectedAdmin--;
+          console.log(`Admin ${user.id} disconnected. ${numConnectedAdmin} admins remaining.`);
+        } else {
+          console.log(`User ${user.id} disconnected.`);
+        }
+    
+        users.delete(username);
+    
+        // Leave the room the user joined
+        socket.leave(user.roomid);
       }
-
-      delete users[socket.id];
-
-      // Leave the room the user joined
-      socket.leave(roomid);
     });
   });
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/:username/:role/:roomid", (req, res) => {
+  const { username, role, roomid } = req.params;
+  switch (role) {
+    case "admin":
+      res.sendFile(path.join(__dirname, "admin.html"));
+      break;
+    case "arbitre":
+      res.sendFile(path.join(__dirname, "arbitre.html"));
+      break;
+    case "tv":
+      res.sendFile(path.join(__dirname, "tv.html"));
+      break;
+    case "winner":
+      res.sendFile(path.join(__dirname, "winner.html"));
+      break;
+    case "tvplayers":
+      res.sendFile(path.join(__dirname, "tvplayers.html"));
+      break;
+    default:
+      res.status(404).send("Invalid role specified");
+      break;
+  }
 });
 
 const PORT = process.env.PORT || 3000;
