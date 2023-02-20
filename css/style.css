@@ -3,7 +3,7 @@
 :root {
   --dark-color-a: #ffffff;
   --dark-color-b: #ffffff;
-  --light-color: #94ddffcb;
+  --light-color: #6c757d;
   --success-color: #5cb85c;
   --error-color: #d9534f;
 }
@@ -15,14 +15,10 @@
 }
 
 body {
-  font-family: monospace,sans-serif;
+  font-family: monospace, sans-serif;
   font-size: 16px;
   background: var(--light-color);
   margin: 20px;
-  background-image: url(/img/logo2.png);
-  background-repeat: no-repeat;
-  background-size: 200px;
-  background-position-x: left;
 }
 
 ul {
@@ -36,49 +32,33 @@ a {
 /* Join Page */
 .join-container {
   max-width: 500px;
-
-  margin: 60px auto;
+  margin: 40px auto;
   color: #1517a0;
 }
 
-.join-header {
-  text-align: center;
-  padding: 20px;
-  background: var(--dark-color-a);
-}
-
 .join-main {
-  padding: 30px 40px;
+  padding: 40px;
+  padding-top: -20px;
   background: var(--dark-color-b);
   height: auto;
 }
 
-.join-main p {
-  margin-bottom: 20px;
-}
-
 .join-main .form-control {
-  padding-top: 25px;
   margin-bottom: 30px;
+}
+.form-control{
+	padding-top: 25px;
 }
 
 .join-main label {
   display: block;
-  margin-bottom: 2px;
-  color: #484a4b;
   margin-bottom: 6px;
+  color: #484a4b;
 }
 
-.join-main #username {
-  font-size: 16px;
-  padding-right: 5px;
-  height: 40px;
-  border: none;
-  border-bottom: 2px solid rgb(94, 93, 93);
-  width: 100%;
-}
-
-.join-main select {
+.join-main #username,
+.join-main select,
+#roomid {
   font-size: 16px;
   padding: 5px;
   height: 40px;
@@ -86,60 +66,54 @@ a {
   border: none;
   border-bottom: 2px solid rgb(94, 93, 93);
 }
-.visible{
-	visibility: none;
-	display: none;
-	opacity: 1;
-	z-index: 0;
+
+#username:focus {
+	outline: none;
+  }
+
+.join-main #username {
+  padding-right: 5px;
 }
 
-#generate-room.btn {
-  background-color: #3bcbff;
-  height: 40px;
-  width: auto;
+.visible {
+  display: none;
 }
 
+#generate-room,
 #submit-btn {
   cursor: pointer;
   padding: 5px 15px;
-  background-color: #3bcbff;
-  display: inline-block;
-  cursor: pointer;
+  background-color: #1517a0;
   color: #ffffff;
   font-family: Arial;
   font-size: 19px;
   font-weight: bold;
-  padding: 13px 56px;
   text-decoration: none;
-  border-color: white;
-  border: solid;
   width: 100%;
+  border: solid;
+  border-color: white;
 }
+
+#submit-btn {
+  padding: 13px 56px;
+}
+
 .myButton:hover {
   background: linear-gradient(to bottom, #408c99 5%, #3bcbff 100%);
   background-color: #408c99;
 }
+
 .myButton:active {
   position: relative;
   top: 1px;
 }
 
-#roomid {
-	width: 50%;
-	font-size: 16px;
-	padding: 5px;
-	height: 40px;
-	border: none;
-	border-bottom: 2px solid rgb(94, 93, 93);
-}
 #roomid:focus {
-	border: none;
-}	
+  outline: none;
+}
+
 #generate-room {
   background-color: #5cb85c;
-  cursor: pointer;
-  padding: 5px 15px;
-  background-color: #4e51e6;
   color: var(--dark-color-a);
   border: 0;
   font-size: 17px;
