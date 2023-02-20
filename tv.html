@@ -50,15 +50,15 @@
 
       // Get the URL and parse it
       const url = new URL(window.location.href);
-      const username = url.pathname.split("/")[1];
-      const role = url.pathname.split("/")[2];
-      const roomid = url.pathname.split("/")[3];
+      const username = url.pathname.split('/')[1];
+      const role = url.pathname.split('/')[2];
+      const roomid = url.pathname.split('/')[3];
 
-      socket.on("connect", () => {
+      socket.on('connect', () => {
         console.log(
           `${username} connected to server as ${role} in room ${roomid}`
         );
-        socket.emit("login", { username, role, roomid });
+        socket.emit('login', { username, role, roomid });
       });
 
       //////////////////////////////////////////////////////////////////////////////////
@@ -88,9 +88,9 @@
           }
 
           // Update the timer element to display the current timer value in the format mm:ss
-          timer.innerText = `${("0" + Math.floor(timerValue / 60)).slice(
+          timer.innerText = `${('0' + Math.floor(timerValue / 60)).slice(
             -2
-          )}:${("0" + (timerValue % 60)).slice(-2)}`;
+          )}:${('0' + (timerValue % 60)).slice(-2)}`;
         }, 1000);
       }
 
@@ -120,23 +120,23 @@
         timerValue = 120;
 
         // Update the timer element to display the reset timer value in the format mm:ss
-        timer.innerText = `${("0" + Math.floor(timerValue / 60)).slice(-2)}:${(
-          "0" +
+        timer.innerText = `${('0' + Math.floor(timerValue / 60)).slice(-2)}:${(
+          '0' +
           (timerValue % 60)
         ).slice(-2)}`;
       }
 
-      socket.on("start-timer", startTimer);
-      socket.on("pause-timer", pauseTimer);
-      socket.on("restart-timer", restartTimer);
+      socket.on('start-timer', startTimer);
+      socket.on('pause-timer', pauseTimer);
+      socket.on('restart-timer', restartTimer);
 
-      socket.on("redirect-tv-to-winner-from-server", (url) => {
-        console.log(url + "from tv");
+      socket.on('redirect-tv-to-winner-from-server', (url) => {
+        console.log(url + 'from tv');
         window.location.replace(url);
       });
 
-      socket.on("redirect-tv-to-players-from-server", (url2) => {
-        console.log(url2 + "from admin");
+      socket.on('redirect-tv-to-players-from-server', (url2) => {
+        console.log(url2 + 'from admin');
         window.location.replace(url2);
       });
     </script>
