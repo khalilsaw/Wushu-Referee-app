@@ -227,10 +227,11 @@
         </div>
         <div class="col">
           <div
-            class="card"
-            id="R1"
+            class="card roundwith1"
             style="max-width: 14rem; height: 4rem; background-color: gray"
-          ></div>
+          >
+            -
+          </div>
         </div>
       </div>
       <!--round 2-->
@@ -313,9 +314,11 @@
         <div class="col">
           <div
             class="card"
-            id="R2"
+            id="roundwith2"
             style="max-width: 14rem; height: 4rem; background-color: gray"
-          ></div>
+          >
+            -
+          </div>
         </div>
       </div>
       <!--round 3-->
@@ -398,9 +401,11 @@
         <div class="col">
           <div
             class="card"
-            id="R3"
+            id="roundwith3"
             style="max-width: 14rem; height: 4rem; background-color: gray"
-          ></div>
+          >
+            -
+          </div>
         </div>
       </div>
     </div>
@@ -914,26 +919,30 @@
           });
         }
       });
-
       document.getElementById('hehoclicke').addEventListener('click', () => {
         let roundWinners = calculateRoundWinners(values);
 
-        const r1 = document.getElementById('R1');
-        const r2 = document.getElementById('R2');
-        const r3 = document.getElementById('R3');
+        console.log('roundwinner' + roundWinners);
 
-        roundWinners.forEach((roundwin, index) => {
+        const r_1 = document.getElementById('roundwith1');
+        const r_2 = document.getElementById('roundwith2');
+        const r_3 = document.getElementById('roundwith3');
+
+        console.log('its the R1 R2 R3' + r_1 + ' ' + r_2 + ' ' + r_3);
+
+        for (let roundNum in roundWinners) {
+          let roundwin = roundWinners[roundNum];
           if (roundwin === 'player1') {
-            document.getElementById(`r${index + 1}`).style.backgroundColor =
+            document.getElementById(`r_${roundNum}`).style.backgroundColor =
               'blue';
           } else if (roundwin === 'player2') {
-            document.getElementById(`r${index + 1}`).style.backgroundColor =
+            document.getElementById(`r_${roundNum}`).style.backgroundColor =
               'red';
           } else if (roundwin === 'equal') {
-            document.getElementById(`r${index + 1}`).style.backgroundColor =
+            document.getElementById(`r_${roundNum}`).style.backgroundColor =
               'green';
           }
-        });
+        }
 
         console.log(roundWinners);
       });
