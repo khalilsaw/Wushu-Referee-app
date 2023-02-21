@@ -59,7 +59,6 @@
                 <option value="arbitre">arbitre</option>
                 <option value="admin">admin</option>
                 <option value="tv">tv</option>
-                                
               </select>
             </div>
             <div>
@@ -84,57 +83,58 @@
     <script>
       const socket = io();
 
-      const divElement = document.getElementById("generate-room");
-      const roleElement = document.getElementById("role");
-      roleElement.addEventListener("change", (event) => {
+      const divElement = document.getElementById('generate-room');
+      const roleElement = document.getElementById('role');
+      roleElement.addEventListener('change', (event) => {
         const selectedValue = event.target.value;
 
-        if (selectedValue === "admin") {
-          divElement.classList.remove("visible");
+        if (selectedValue === 'admin') {
+          divElement.classList.remove('visible');
         } else {
-          divElement.classList.add("visible");
+          divElement.classList.add('visible');
         }
       });
 
       function generateRoomId() {
-        const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        let result = "";
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
         for (let i = 0; i < 2; i++) {
           result += characters.charAt(
             Math.floor(Math.random() * characters.length)
           );
         }
-        const digits = "0123456789";
+        const digits = '0123456789';
         for (let i = 0; i < 2; i++) {
           result += digits.charAt(Math.floor(Math.random() * digits.length));
         }
         return result;
       }
 
-      const joinForm = document.getElementById("join-form");
-      const generateRoomButton = document.getElementById("generate-room");
+      const joinForm = document.getElementById('join-form');
+      const generateRoomButton = document.getElementById('generate-room');
 
-      joinForm.addEventListener("submit", (event) => {
+      joinForm.addEventListener('submit', (event) => {
         event.preventDefault(); // prevent the form from submitting
-        const username = document.getElementById("username").value;
-        const role = document.getElementById("role").value;
-        const roomid = document.getElementById("roomid").value;
-        socket.emit("check-room", { roomid, role }, (response) => {
+        const username = document.getElementById('username').value;
+        const role = document.getElementById('role').value;
+        const roomid = document.getElementById('roomid').value;
+
+        socket.emit('check-room', { username, role, roomid }, (response) => {
           if (response.exists) {
             const url = `${window.location.href}${username}/${role}/${roomid}`;
             window.location.href = url; // redirect to the new URL
           } else {
-			const uri = `${window.location.href}`;
-			window.location.href = uri; // redirect to the new URL
+            const uri = `${window.location.href}`;
+            window.location.href = uri; // redirect to the new URL
           }
         });
       });
 
-      generateRoomButton.addEventListener("click", (event) => {
+      generateRoomButton.addEventListener('click', (event) => {
         event.preventDefault();
         const roomid = generateRoomId();
-        socket.emit("generated-room-stored", roomid);
-        document.getElementById("roomid").value = roomid;
+        socket.emit('generated-room-stored', roomid);
+        document.getElementById('roomid').value = roomid;
       });
     </script>
   </body>

@@ -227,7 +227,8 @@
         </div>
         <div class="col">
           <div
-            class="card roundwith1"
+            class="card"
+            id="roundwith1"
             style="max-width: 14rem; height: 4rem; background-color: gray"
           >
             -
@@ -422,7 +423,7 @@
             onclick="incrementValuecardout_playerbleu()"
           >
             <img
-              src="/img/out.png"
+              src="img/out.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -431,6 +432,7 @@
               "
             />
           </button>
+          &nbsp;
           <button
             class="btn btn-primary"
             type="button"
@@ -438,7 +440,7 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: yellow"
+              style="font-size: 5rem; color: yellow"
             ></i>
           </button>
           &nbsp;
@@ -449,7 +451,7 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: blue"
+              style="font-size: 5rem; color: blue"
             ></i>
           </button>
           &nbsp;
@@ -460,8 +462,24 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: red"
+              style="font-size: 5rem; color: red"
             ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementValuecardcountdown_playerbleu()"
+          >
+            <img
+              src="img/countdown.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
           </button>
         </div>
 
@@ -473,7 +491,7 @@
             onclick="incrementValuecardout_playerred()"
           >
             <img
-              src="/img/out.png"
+              src="img/out.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -490,7 +508,7 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: yellow"
+              style="font-size: 5rem; color: yellow"
             ></i>
           </button>
           &nbsp;
@@ -501,7 +519,7 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: blue"
+              style="font-size: 5rem; color: blue"
             ></i>
           </button>
           &nbsp;
@@ -512,37 +530,50 @@
           >
             <i
               class="bi bi-file-earmark-fill"
-              style="font-size: 6rem; color: red"
+              style="font-size: 5rem; color: red"
             ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementValuecardcountdown_playerred()"
+          >
+            <img
+              src="img/countdown.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
           </button>
         </div>
       </div>
-
       <div class="row">
         <div class="col text-bg-primary" style="font-size: 2rem">
-          <span id="incrementValuecardout_playerbleu" class="backtozero">
-            0
-          </span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardyellow_playerbleu" class="backtozero">
-            0
-          </span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardout_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardyellow_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardbleu_playerbleu">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardred_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardcountdown_playerbleu">0</span>
         </div>
 
         <div class="col text-bg-danger" style="font-size: 2rem">
-          <span id="incrementValuecardout_playerred" class="backtozero">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardyellow_playerred" class="backtozero">
-            0
-          </span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardout_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardyellow_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardbleu_playerred">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardred_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardcountdown_playerred">0</span>
         </div>
       </div>
     </div>
@@ -702,6 +733,11 @@
     <br />
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      const r_1 = document.getElementById('roundwith1');
+      const r_2 = document.getElementById('roundwith2');
+      const r_3 = document.getElementById('roundwith3');
+      console.log('its the R1 R2 R3 : ' + r_1 + ' ' + r_2 + ' ' + r_3);
+
       const socket = io();
       const arbitreIds = [];
       let pl1 = 0;
@@ -758,74 +794,13 @@
       socket.emit('request-values');
 
       // Initialize a variable to store the values object on the admin page
-      let values = {
+      /*  let values = {
         1: [],
         2: [],
         3: [],
-      };
+      }; */
 
-      // Listen for the "receive-values" event emitted by the server
-
-      //////Testing code :
-      function calculateRoundWinners(values) {
-        let roundWinners = {};
-
-        // Loop through each round
-        for (let roundNum in values) {
-          let roundMatches = values[roundNum];
-          let roundWinnerCounts = {};
-
-          // Loop through each match in the round and count the number of times each player won
-          for (let i = 0; i < roundMatches.length; i++) {
-            let match = roundMatches[i];
-            let winner = match.receivedWinner;
-
-            if (winner !== 'equal') {
-              if (winner in roundWinnerCounts) {
-                roundWinnerCounts[winner]++;
-              } else {
-                roundWinnerCounts[winner] = 1;
-              }
-            }
-          }
-
-          // Find the player with the highest number of wins and set them as the winner of the round
-          let roundWinner = null;
-          let maxWins = -1;
-          for (let winner in roundWinnerCounts) {
-            if (roundWinnerCounts[winner] > maxWins) {
-              roundWinner = winner;
-              maxWins = roundWinnerCounts[winner];
-            }
-          }
-
-          roundWinners[roundNum] = roundWinner;
-        }
-
-        return roundWinners;
-      }
-
-      //////Ending code :
-
-      ///checking if the arbitre already there :
-
-      //  to be addedd to the server ???????
-
-      function doesArbitratorExist(values, arbitratorName) {
-        // Loop through each round
-        for (let roundNum in values) {
-          let roundMatches = values[roundNum];
-
-          // Loop through each match in the round and check if the arbitrator name exists
-          for (let i = 0; i < roundMatches.length; i++) {
-            let match = roundMatches[i];
-            if (match.receivedArbitreName === arbitratorName) {
-              return true;
-            }
-          }
-        }
-        return false;
-      }
+      const values = {};
 
       socket.on('receive-values', (data) => {
         console.log(
@@ -836,115 +811,102 @@
             ' Winner : ' +
             data.winner
         );
+
         const receivedRound = data.round;
         const receivedArbitreName = data.arbitreName;
         const receivedWinner = data.winner;
-
-        // Push the received values into the corresponding array based on the round number
-        values[receivedRound].push({ receivedArbitreName, receivedWinner });
+        const receivedroomid = data.roomid;
 
         console.log(
-          'This is ur value from admin bofere assignment  ' +
+          `after recive and reasign : round ${receivedRound} arbname ${receivedArbitreName} winner ${receivedWinner} roomid ${receivedroomid}`
+        );
+
+        // Initialize the object for the received room ID if necessary
+        if (!values[receivedroomid]) {
+          values[receivedroomid] = {};
+        }
+
+        // Initialize the array for the received round number if necessary
+        if (!values[receivedroomid][receivedRound]) {
+          values[receivedroomid][receivedRound] = [];
+        }
+
+        // Push the received values into the corresponding array based on the round number
+        values[receivedroomid][receivedRound].push({
+          receivedArbitreName,
+          receivedWinner,
+        });
+
+        console.log(
+          'This is your values object after assignment: ' +
             JSON.stringify(values)
         );
-        //nom-arbitre
 
         let cardsRound1 = document.querySelectorAll(
-          '.card-assigned-value-round1'
+          `.card-assigned-value-${receivedroomid}-round1`
         );
         let cardsRound2 = document.querySelectorAll(
-          '.card-assigned-value-round2'
+          `.card-assigned-value-${receivedroomid}-round2`
         );
         let cardsRound3 = document.querySelectorAll(
-          '.card-assigned-value-round3'
+          `.card-assigned-value-${receivedroomid}-round3`
         );
 
         console.log(cardsRound1 + ' ' + cardsRound2 + ' ' + cardsRound3);
-
         // Check that the values object is defined before accessing its properties
         if (values) {
-          console.log(JSON.stringify(values));
-          // Update the values for round 1
           cardsRound1.forEach((card, index) => {
+            const round1Value = values[receivedroomid][1];
+            console.log();
             if (
-              values[1] &&
-              values[1][index] &&
-              doesArbitratorExist(values, receivedArbitreName)
+              round1Value &&
+              round1Value.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = values[1][index].receivedArbitreName;
-              if (values[1][index].receivedWinner === 'player1') {
+              card.innerHTML = round1Value.receivedArbitreName;
+              if (round1Value.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (values[1][index].receivedWinner === 'player2') {
+              } else if (round1Value.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (values[1][index].receivedWinner === 'equal') {
+              } else if (round1Value.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
               }
             }
           });
 
-          // Update the values for round 2
           cardsRound2.forEach((card, index) => {
+            const round2Value = values[receivedroomid][2];
             if (
-              values[2] &&
-              values[2][index] &&
-              doesArbitratorExist(values, receivedArbitreName)
+              round2Value &&
+              round2Value.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = values[2][index].receivedArbitreName;
-              if (values[2][index].receivedWinner === 'player1') {
+              card.innerHTML = round2Value.receivedArbitreName;
+              if (round2Value.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (values[2][index].receivedWinner === 'player2') {
+              } else if (round2Value.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (values[2][index].receivedWinner === 'equal') {
+              } else if (round2Value.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
               }
             }
           });
 
-          // Update the values for round 3
           cardsRound3.forEach((card, index) => {
+            const round3Value = values[receivedroomid][3];
             if (
-              values[3] &&
-              values[3][index] &&
-              doesArbitratorExist(values, receivedArbitreName)
+              round3Value &&
+              round3Value.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = values[3][index].receivedArbitreName;
-              if (values[3][index].receivedWinner === 'player1') {
+              card.innerHTML = round3Value.receivedArbitreName;
+              if (round3Value.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (values[3][index].receivedWinner === 'player2') {
+              } else if (round3Value.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (values[3][index].receivedWinner === 'equal') {
+              } else if (round3Value.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
               }
             }
           });
         }
-      });
-      document.getElementById('hehoclicke').addEventListener('click', () => {
-        let roundWinners = calculateRoundWinners(values);
-
-        console.log('roundwinner' + roundWinners);
-
-        const r_1 = document.getElementById('roundwith1');
-        const r_2 = document.getElementById('roundwith2');
-        const r_3 = document.getElementById('roundwith3');
-
-        console.log('its the R1 R2 R3' + r_1 + ' ' + r_2 + ' ' + r_3);
-
-        for (let roundNum in roundWinners) {
-          let roundwin = roundWinners[roundNum];
-          if (roundwin === 'player1') {
-            document.getElementById(`r_${roundNum}`).style.backgroundColor =
-              'blue';
-          } else if (roundwin === 'player2') {
-            document.getElementById(`r_${roundNum}`).style.backgroundColor =
-              'red';
-          } else if (roundwin === 'equal') {
-            document.getElementById(`r_${roundNum}`).style.backgroundColor =
-              'green';
-          }
-        }
-
-        console.log(roundWinners);
       });
 
       //////////////////////////////////////////////////////////////////////////////////////////////
@@ -962,15 +924,15 @@
           rcount = 0;
           bcount = 0;
 
-          const url3 = `${vurl}/${username}/tv/${roomid}`;
-          socket.emit('redirect-player-to-tv', url3);
-          console.log('redirect players to tv ' + url3);
-
           // Get the selected round value
           const round = document.getElementById('round-select').value;
 
           // Emit the selected round value to the server
           socket.emit('select-round', round);
+
+          const url3 = `${vurl}/${username}/tv/${roomid}`;
+          socket.emit('redirect-player-to-tv', url3);
+          console.log('redirect players to tv ' + url3);
 
           showAlert(round);
           console.log('alert shown');
@@ -1270,25 +1232,9 @@
         }
       }
       // increment Value card blue plyredaer
-      function incrementValuecardout_playerbleu() {
-        Valuecardout_playerbleu++;
-        document.getElementById('incrementValuecardout_playerbleu').innerHTML =
-          Valuecardout_playerbleu;
-        if (Valuecardout_playerbleu == 2) {
-          showAlert2(round, 'red');
-          socket.emit('outcard', 'red');
-        }
-      }
-      function incrementValuecardout_playerred() {
-        Valuecardout_playerred++;
-        document.getElementById('incrementValuecardout_playerred').innerHTML =
-          Valuecardout_playerred;
-        if (Valuecardout_playerred == 2) {
-          showAlert2(round, 'blue');
-          socket.emit('outcard', 'blue');
-        }
-      }
-
+      var Valuecardyellow_playerbleu = 0,
+        Valuecardbleu_playerbleu = 0,
+        Valuecardred_playerbleu = 0;
       function incrementValuecardyellow_playerbleu() {
         Valuecardyellow_playerbleu++;
         document.getElementById(
@@ -1299,21 +1245,38 @@
         Valuecardbleu_playerbleu++;
         document.getElementById('incrementValuecardbleu_playerbleu').innerHTML =
           Valuecardbleu_playerbleu;
-        //
-        if (Valuecardbleu_playerbleu == 3) {
-          winnerRed();
-        }
       }
       function incrementValuecardred_playerbleu() {
         Valuecardred_playerbleu++;
         document.getElementById('incrementValuecardred_playerbleu').innerHTML =
           Valuecardred_playerbleu;
-        //
-        if (Valuecardred_playerbleu == 3) {
-          winnerRed();
-        }
+      }
+      function incrementValuecardcountdown_playerbleu() {
+        Valuecardcountdown_playerbleu++;
+        document.getElementById(
+          'incrementValuecardcountdown_playerbleu'
+        ).innerHTML = Valuecardcountdown_playerbleu;
+      }
+      var Valuecardcountdown_playerbleu = 0,
+        Valuecardout_playerbleu = 0;
+      //out bleu
+      function incrementValuecardout_playerbleu() {
+        Valuecardout_playerbleu++;
+        document.getElementById('incrementValuecardout_playerbleu').innerHTML =
+          Valuecardout_playerbleu;
+      }
+      //countdown bleu
+      function incrementValuecardcountdown_playerbleu() {
+        Valuecardcountdown_playerbleu++;
+        document.getElementById(
+          'incrementValuecardcountdown_playerbleu'
+        ).innerHTML = Valuecardcountdown_playerbleu;
       }
       // increment Value card red plyredaer
+      var Valuecardyellow_playerred = 0,
+        Valuecardbleu_playerred = 0,
+        Valuecardred_playerred = 0;
+      (Valuecardcountdown_playerred = 0), (Valuecardout_playerred = 0);
       function incrementValuecardyellow_playerred() {
         Valuecardyellow_playerred++;
         document.getElementById(
@@ -1324,25 +1287,32 @@
         Valuecardbleu_playerred++;
         document.getElementById('incrementValuecardbleu_playerred').innerHTML =
           Valuecardbleu_playerred;
-        //
-        if (Valuecardbleu_playerred == 3) {
-          winnerblue();
-        }
       }
       function incrementValuecardred_playerred() {
         Valuecardred_playerred++;
         document.getElementById('incrementValuecardred_playerred').innerHTML =
           Valuecardred_playerred;
-        //
-        if (Valuecardred_playerred == 3) {
-          winnerblue();
-        }
+      }
+      var Valuecardcountdown_playerred = 0,
+        Valuecardout_playerred = 0;
+      //out red
+      function incrementValuecardout_playerred() {
+        Valuecardout_playerred++;
+        document.getElementById('incrementValuecardout_playerred').innerHTML =
+          Valuecardout_playerred;
+      }
+      //countdown red
+      function incrementValuecardcountdown_playerred() {
+        Valuecardcountdown_playerred++;
+        document.getElementById(
+          'incrementValuecardcountdown_playerred'
+        ).innerHTML = Valuecardcountdown_playerred;
       }
 
-      window.addEventListener('beforeunload', function (e) {
+      /* window.addEventListener('beforeunload', function (e) {
         e.preventDefault();
         e.returnValue = '';
-      });
+      }); */
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

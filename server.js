@@ -4,13 +4,9 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const arbitreRole = 'arbitre';
 
 let rooms = [];
 const users = new Map();
-
-let numConnectedArbitr = 0; // Counter variable to track the number of connected arbitr
-let numConnectedAdmin = 0; // Counter variable to track the number of connected admin clients
 
 app.use('/img/', express.static(path.join(__dirname, 'img')));
 app.use('/socket.io', express.static(path.join(__dirname, 'socket.io')));
@@ -18,87 +14,99 @@ app.use('/sound', express.static(path.join(__dirname, 'sound')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 
 io.on('connection', (socket) => {
-  // Declare the values object for this connection
-  let values = {}; // object to store the values for each arbitre
-
   // store rooms
   socket.on('generated-room-stored', (roomid) => {
     rooms.push(roomid);
+    console.log('rooms from server : ' + rooms);
   });
 
-  //6--------------------------------------------------------------------------
-  function countRoles(usersMap) {
-    let adminCount = 0;
-    let arbitreCount = 0;
+  //--------------------------------------------------------------------------
 
-    for (const user of usersMap.values()) {
-      if (user.role === 'admin') {
-        adminCount++;
-      } else if (user.role === 'arbitre') {
-        arbitreCount++;
+  //check rooms
+  let adminsCount = 0;
+  let arbitresCount = 0;
+
+  socket.on('check-room', ({ username, role, roomid }, callback) => {
+    const roomExists = rooms.includes(roomid);
+    if (!roomExists) {
+      console.log('Room does not exist yet...');
+      callback({ exists: false });
+    }
+
+    if (!users.has(roomid)) {
+      users.set(roomid, [{ name: '', role: '', room: roomid }]);
+    }
+
+    if (users.has(roomid)) {
+      const usersInRoom = users.get(roomid);
+      console.log(' hey badr ' + usersInRoom);
+      for (const user of usersInRoom) {
+        if (user.role === 'admin') {
+          adminsCount++;
+        } else if (user.role === 'arbitre') {
+          arbitresCount++;
+        }
       }
+      console.log(
+        `In room ${roomid}, there are ${adminsCount} admin(s) and ${arbitresCount} arbitre(s).`
+      );
+    } else {
+      console.log(`Room ${roomid} not found in users map`);
     }
 
-    return { adminCount, arbitreCount };
-  }
-
-  socket.on('check-room', ({ roomid, role }, callback) => {
-    // Check whether the room exists
-    // Your code for checking the room can go here
-    const roomExists = rooms.includes(roomid); // set this variable to true or false based on your check
-    // Count the number of arbitres
-    const { adminCount } = countRoles(users);
-    const { arbitreCount } = countRoles(users);
-    console.log(
-      roomExists + ' ' + role + ' ' + adminCount + ' ' + arbitreCount
-    );
-
-    if (role == 'admin' && adminCount == 1) {
-      console.log('admin already exist');
+    if (role === 'admin' && adminsCount >= 1) {
+      console.log(`Admin already exists in room ${roomid}`);
       callback({ exists: false });
-      return;
-    }
-
-    if (role == 'arbitre' && arbitreCount >= 5) {
-      console.log('arbitre max reaced');
+    } else if (role === 'arbitre' && arbitresCount >= 5) {
+      console.log(`Maximum number of arbitres reached in room ${roomid}`);
       callback({ exists: false });
-      return;
+    } else {
+      console.log(`Room ${roomid} exists and requirements met`);
+
+      callback({ exists: true });
     }
-    callback({ exists: roomExists });
   });
 
   //---------------------------------------------
+
   // when a user gets connected
   socket.on('login', ({ username, role, roomid }) => {
-    console.log(
-      `${username} connected to server as ${role} in room ${roomid} //////// ${socket.id}`
-    );
-
-    console.log(users);
-
+    // Check whether the room exists
     const roomExists = rooms.includes(roomid);
-    const { adminCount } = countRoles(users);
-    const { arbitreCount } = countRoles(users);
-
-    //if the room doesn't exist
     if (!roomExists) {
+      console.log(`Room ${roomid} does not exist`);
+      // Redirect the user to an error page
       return;
     }
 
-    //the role verifications
-    if (role == 'admin' && adminCount == 1) {
-      console.log('admin already exist');
+    const adminCount = adminsCount;
+    const arbitreCount = arbitresCount;
+
+    // Check whether the max number of admins or arbiters has been reached
+    if (role === 'admin' && adminCount >= 1) {
+      console.log('Admin already exists in room', roomid);
+      // Redirect the user to an error page
       return;
-    } else if (role == 'arbitre' && arbitreCount >= 5) {
-      console.log('arbitre max reaced');
+    } else if (role === 'arbitre' && arbitreCount >= 5) {
+      console.log('Max number of arbiters reached in room', roomid);
+      // Redirect the user to an error page
       return;
     }
+
+    // Add the user to the users map
+    const user = { name: username, role: role, room: roomid };
+    if (role === 'arbitre') {
+      user.rounds = [null, null, null];
+    }
+    const usersInRoom = users.get(roomid) || [];
+    usersInRoom.push(user);
+    users.set(roomid, usersInRoom);
+    console.log(
+      `User ${username} added to the users map ${JSON.stringify(users)}`
+    );
 
     // Add the user to the specified room
     socket.join(roomid);
-
-    // Store the user's details and socket ID in the map
-    users.set(username, { id: socket.id, role, roomid });
 
     // Broadcast a message to all connected users in the room
     io.to(roomid).emit(
@@ -106,17 +114,89 @@ io.on('connection', (socket) => {
       `${username} (${role}) has joined the chat in room ${roomid}`
     );
 
+    //listen to sended values from arbitre
+
     socket.on('send-value', (value, roomid) => {
-      console.log('Value received: ' + JSON.stringify(value));
+      console.log(
+        'Value of arbitre received from server : ' + JSON.stringify(value)
+      );
 
       const round = value.round;
       const arbitreName = value.arbitre;
       const winner = value.winner;
+
       console.log(
-        round + ' ' + arbitreName + ' ' + winner + ' from the server'
+        round +
+          ' ' +
+          arbitreName +
+          ' ' +
+          winner +
+          ' from the server from send-value'
       );
 
-      io.to(roomid).emit('receive-values', { round, arbitreName, winner });
+      function isArbitratorResultSubmitted(
+        users,
+        roomId,
+        roundNumber,
+        arbitratorName
+      ) {
+        const arbitrators = users
+          .get(roomId)
+          .filter((user) => user.role === 'arbitre');
+        const submitted = arbitrators.some(
+          (arbitrator) =>
+            arbitrator.name === arbitratorName &&
+            arbitrator.rounds[roundNumber - 1] !== null
+        );
+        return submitted;
+      }
+
+      const resultSubmitted = isArbitratorResultSubmitted(
+        users,
+        roomid,
+        round,
+        arbitreName
+      );
+      console.log(
+        `hey this is the indice if the arbitre already submited ${resultSubmitted}`
+      );
+      if (resultSubmitted) {
+        return;
+      }
+
+      const usersInRoom = users.get(roomid);
+
+      // find the arbitre in the users map and check if they have already submitted a winner for the round
+      const arbitre = usersInRoom.find(
+        (user) => user.role === 'arbitre' && user.name === arbitreName
+      );
+      if (!arbitre.rounds[round - 1]) {
+        // store the winner for the round in the arbitre's rounds array
+        arbitre.rounds[round - 1] = winner;
+        console.log(
+          `Winner ${winner} submitted for round ${round} by arbitre ${arbitreName} in room ${roomid}`
+        );
+      } else {
+        console.log(
+          `Arbitre ${arbitreName} already submitted a winner for round ${round} in room ${roomid}`
+        );
+      }
+
+      io.to(roomid).emit('receive-values', {
+        round,
+        arbitreName,
+        winner,
+        roomid,
+      });
+      console.log(users);
+    });
+
+    // Listen for the 'select-round' event
+    socket.on('select-round', (round) => {
+      console.log(`Admin selected round ${round}`);
+
+      // Emit an event to the arbitre client with the selected round value
+      io.to(roomid).emit('selected-round', round);
     });
 
     //redirection code  for timer
@@ -133,22 +213,6 @@ io.on('connection', (socket) => {
     socket.on('restart-timer-admin', () => {
       console.log('timer in server changed');
       io.to(roomid).emit('restart-timer');
-    });
-
-    // Listen for the 'select-round' event
-    socket.on('select-round', (round) => {
-      console.log(`Admin selected round ${round}`);
-
-      // Update the values object with the selected round
-      values = {
-        1: round === '1' ? values[1] : values[1],
-        2: round === '2' ? values[2] : values[2],
-        3: round === '3' ? values[3] : values[3],
-      };
-
-      // Emit an event to the arbitre client with the selected round value
-
-      io.to(roomid).emit('selected-round', round);
     });
 
     //redirect url to winner
@@ -175,27 +239,36 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-      const user = users.get(username);
-      console.log(user);
-      if (user) {
-        if (user.role === arbitreRole) {
-          numConnectedArbitr--;
+      const usersInRoom = users.get(user.room);
+      const disconnectedUser = usersInRoom.find(
+        (user) => user.name === username
+      );
+
+      if (disconnectedUser) {
+        if (disconnectedUser.role === 'arbitre') {
+          arbitresCount--;
           console.log(
-            `Arbitrator ${user.id} disconnected. ${numConnectedArbitr} arbitrators remaining.`
+            `Arbitrator ${username} disconnected. ${arbitresCount} arbitrators remaining.`
           );
-        } else if (user.role === 'admin') {
-          numConnectedAdmin--;
+        } else if (disconnectedUser.role === 'admin') {
+          adminsCount--;
           console.log(
-            `Admin ${user.id} disconnected. ${numConnectedAdmin} admins remaining.`
+            `Admin ${username} disconnected. ${adminsCount} admins remaining.`
           );
         } else {
-          console.log(`User ${user.id} disconnected.`);
+          console.log(`User ${username} disconnected.`);
         }
 
-        users.delete(username);
+        const index = usersInRoom.indexOf(disconnectedUser);
+        usersInRoom.splice(index, 1);
+
+        // If no more users in the room, delete the room from the users Map
+        if (usersInRoom.length === 0) {
+          users.delete(user.room);
+        }
 
         // Leave the room the user joined
-        socket.leave(user.roomid);
+        socket.leave(disconnectedUser.roomid);
       }
     });
   });

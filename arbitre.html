@@ -57,6 +57,10 @@
     <br />
     <br />
     <div class="container text-center">
+      <div>
+        <h2 id="selectR">Round :</h2>
+      </div>
+
       <div class="row" style="display: flex">
         <div class="col">
           <button
@@ -218,7 +222,12 @@
 
       socket.on('selected-round', (round) => {
         selectedRound = round;
+        document.getElementById(
+          'selectR'
+        ).innerHTML = `Round : ${selectedRound}`;
+
         showAlert(selectedRound);
+
         console.log(selectedRound + ' but from arbitre');
       });
 
