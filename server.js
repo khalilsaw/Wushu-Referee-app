@@ -7,6 +7,7 @@ const io = require('socket.io')(server);
 
 let rooms = [];
 const users = new Map();
+const referees = {};
 
 app.use('/img/', express.static(path.join(__dirname, 'img')));
 app.use('/socket.io', express.static(path.join(__dirname, 'socket.io')));
@@ -79,15 +80,12 @@ io.on('connection', (socket) => {
       return;
     }
 
-    const adminCount = adminsCount;
-    const arbitreCount = arbitresCount;
-
     // Check whether the max number of admins or arbiters has been reached
-    if (role === 'admin' && adminCount >= 1) {
+    if (role === 'admin' && adminsCount >= 1) {
       console.log('Admin already exists in room', roomid);
       // Redirect the user to an error page
       return;
-    } else if (role === 'arbitre' && arbitreCount >= 5) {
+    } else if (role === 'arbitre' && arbitresCount >= 5) {
       console.log('Max number of arbiters reached in room', roomid);
       // Redirect the user to an error page
       return;
@@ -96,14 +94,26 @@ io.on('connection', (socket) => {
     // Add the user to the users map
     const user = { name: username, role: role, room: roomid };
     if (role === 'arbitre') {
+      if (!referees[roomid]) {
+        // if there are no referees for this room yet
+        referees[roomid] = []; // create an empty array for this room
+      }
+      if (referees[roomid].includes(username)) {
+        // referee is already in the array for this room
+        console.log('Referee already exists in the room');
+        return;
+      }
+
+      referees[roomid].push(username); // add the referee to the array for this room
       user.rounds = [null, null, null];
+      console.dir(referees);
     }
+
     const usersInRoom = users.get(roomid) || [];
     usersInRoom.push(user);
     users.set(roomid, usersInRoom);
-    console.log(
-      `User ${username} added to the users map ${JSON.stringify(users)}`
-    );
+    console.log(`User ${username} added to the users map `);
+    console.dir(users);
 
     // Add the user to the specified room
     socket.join(roomid);
@@ -113,6 +123,40 @@ io.on('connection', (socket) => {
       'message',
       `${username} (${role}) has joined the chat in room ${roomid}`
     );
+
+    //666666666666666666666666666666666666666666666666666
+    //666666666666666666666666666666666666666666666666666
+    //send referees
+    socket.on('fill-the-tv', () => {
+      io.to(roomid).emit('arbitre-to-tv', referees[roomid]);
+    });
+    //666666666666666666666666666666666666666666666666666
+    //666666666666666666666666666666666666666666666666666
+
+    // Assuming you have already set up a socket.io server connection
+    socket.on('updatePlayerValue', function (data) {
+      const playertoup = data.player;
+      const arbitrerNa = data.username;
+      io.to(roomid).emit('updatePlayerValue-to-tv', { playertoup, arbitrerNa });
+      // Log the username of the arbiter and the updated player value
+      console.log(
+        `Arbiter ${data.username} updated ${data.player} to ${data.value}`
+      );
+    });
+
+    socket.on('updatePlayerValue-dec', function (data) {
+      const playertoup = data.player;
+      const arbitrerNa = data.username;
+
+      io.to(roomid).emit('updatePlayerValue-to-tv-dec', {
+        playertoup,
+        arbitrerNa,
+      });
+      // Log the username of the arbiter and the updated player value
+      console.log(
+        `Arbiter ${data.username} updated ${data.player} to ${data.value}`
+      );
+    });
 
     //listen to sended values from arbitre
 
@@ -247,6 +291,13 @@ io.on('connection', (socket) => {
       if (disconnectedUser) {
         if (disconnectedUser.role === 'arbitre') {
           arbitresCount--;
+
+          const index = referees[roomid].indexOf(username);
+          if (index !== -1) {
+            io.to(roomid).emit('arbitre-deleted', username);
+            console.log('hey you want to see the index ::::::: ' + index);
+            referees[roomid].splice(index, 1);
+          }
           console.log(
             `Arbitrator ${username} disconnected. ${arbitresCount} arbitrators remaining.`
           );

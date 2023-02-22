@@ -92,9 +92,6 @@ socket.on('select-round', (round) => {
   io.to(roomid).emit('selected-round', round);
 });
 
-
-
-
 socket.on('disconnect', () => {
   const user = users.get(username);
   console.log(user);
@@ -221,3 +218,53 @@ socket.on('disconnect', () => {
 /*  document.getElementById('hehoclicke').addEventListener('click', () => {
         updateRoundWinners(values);
       }); */
+
+{
+  /* <div id="container-note">
+      <h3 align="center">Arbitre 1</h3>
+      <div class="progress-container">
+        <div class="progress-bar-arbitre1-left">
+          <div class="progress-label left">0</div>
+        </div>
+        <div class="progress-bar-arbitre1-right">
+          <div class="progress-label right">0</div>
+        </div>
+      </div>
+      <h3 align="center">Arbitre 2</h3>
+      <div class="progress-container">
+        <div class="progress-bar-arbitre2-left">
+          <div class="progress-label left">0</div>
+        </div>
+        <div class="progress-bar-arbitre2-right">
+          <div class="progress-label right">0</div>
+        </div>
+      </div>
+      <h3 align="center">Arbitre 3</h3>
+      <div class="progress-container">
+        <div class="progress-bar-arbitre3-left">
+          <div class="progress-label left">0</div>
+        </div>
+        <div class="progress-bar-arbitre3-right">
+          <div class="progress-label right">0</div>
+        </div>
+      </div>
+      <h3 align="center">Arbitre 4</h3>
+      <div class="progress-container">
+        <div class="progress-bar-arbitre4-left">
+          <div class="progress-label left">0</div>
+        </div>
+        <div class="progress-bar-arbitre4-right">
+          <div class="progress-label right">0</div>
+        </div>
+      </div>
+      <h3 align="center">Arbitre 5</h3>
+      <div class="progress-container">
+        <div class="progress-bar-arbitre5-left">
+          <div class="progress-label left">0</div>
+        </div>
+        <div class="progress-bar-arbitre5-right">
+          <div class="progress-label right">0</div>
+        </div>
+      </div>
+    </div>  */
+}

@@ -18,6 +18,11 @@
 
   <body class="p-3 mb-2 bg-secondary text-white">
     <style>
+      body {
+        position: relative;
+        text-align: center;
+        min-height: 100vh;
+      }
       #hehoclicke {
         transition: transform 0.3s ease-out;
       }
@@ -29,24 +34,167 @@
       #hehoclicke:active {
         transform: scale(0.5) translateZ(-20px);
       }
+      #menu {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -75px 0 0 -75px;
+        list-style: none;
+        font-size: 200%;
+      }
+
+      .menu-button {
+        opacity: 0;
+        z-index: -1;
+      }
+
+      .menu-button {
+        width: 150px;
+        height: 150px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -75px 0 0 -75px;
+        border-radius: 50%;
+        background: #424242;
+        background-size: 100%;
+        overflow: hidden;
+        text-decoration: none;
+        line-height: 150px;
+        color: #fff;
+      }
+
+      #menu:not(:target) > a:first-of-type,
+      #menu:target > a:last-of-type {
+        opacity: 1;
+        z-index: 1;
+      }
+
+      #menu:not(:target) > .icon-plus:before,
+      #menu:target > .icon-minus:before {
+        opacity: 1;
+      }
+
+      .menu-item {
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        left: 55%;
+        line-height: 5px;
+        top: 50%;
+        margin: -50px 0 0 -50px;
+        border-radius: 50%;
+        background-color: #424242;
+        transform: translate(0px, 0px);
+        transition: transform 500ms;
+        z-index: -2;
+        transition: 0.5s;
+      }
+
+      .menu-item:hover {
+        opacity: 0.5;
+        box-shadow: 0 5px 10px black;
+      }
+
+      .menu-item a {
+        color: #fff;
+        position: relative;
+        top: 30%;
+        left: 0;
+        text-decoration: none;
+      }
+
+      #menu:target > .menu-item:nth-child(6) {
+        transform: rotate(60deg) translateY(-150px) rotate(300deg);
+        transition-delay: 0s;
+      }
+
+      #menu:target > .menu-item:nth-child(5) {
+        transform: rotate(20deg) translateY(-155px) rotate(-20deg);
+        transition-delay: 0.1s;
+      }
+
+      #menu:target > .menu-item:nth-child(3) {
+        transform: rotate(-20deg) translateY(-155px) rotate(20deg);
+        transition-delay: 0.2s;
+      }
+
+      #menu:target > .menu-item:nth-child(4) {
+        transform: rotate(-60deg) translateY(-150px) rotate(60deg);
+        transition-delay: 0.3s;
+      }
+
+      .content {
+        position: absolute;
+        text-align: center;
+        margin: -10px 0 0 -30px;
+        top: 70%;
+        left: 50%;
+        font-size: 20px;
+      }
     </style>
     <div
       class="popup"
       style="
-        display: none;
-        width: 500px;
-        box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        width: 50px;
+        position: absolute;
+        bottom: 90px;
+        left: 10%;
         z-index: 1;
-        padding: 20px;
-        border: 1px solid black;
         border-radius: 10px;
-        background-color: white;
       "
     >
+      <!-- TEsting buble -->
+      <div class="container">
+        <ul id="menu">
+          <a class="menu-button icon-plus" href="#menu" title="Show navigation">
+            <span
+              class="fas fa-share-alt"
+              style="font-size: 3rem; font-weight: 900; color: #fff"
+            >
+              Tool
+            </span>
+          </a>
+          <a class="menu-button icon-minus" href="#0" title="Hide navigation">
+            <span
+              class="fas fa-share-alt"
+              style="font-size: 3rem; font-weight: 900; color: #fff"
+            >
+              Tool
+            </span>
+          </a>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-github"></span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span
+                class="fab fa-facebook"
+                style="cursor: pointer; text-align: center"
+                onclick="tv()"
+              >
+                TV
+              </span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-twitter"></span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-instagram"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- TEsting buble -->
+
       <section
         id="alert-container"
         style="font-size: 60px; font-family: monospace; text-align: center"
@@ -778,48 +926,35 @@
 
       const url = new URL(window.location.href);
       const vurl = url.pathname.split('/')[0];
-      console.log(vurl);
+      /* console.log(vurl); */
       const username = url.pathname.split('/')[1];
       const role = url.pathname.split('/')[2];
       const roomid = url.pathname.split('/')[3];
 
+      /* console.log('hey------------------------------------');
+              console.dir(values);
+              console.log(
+                values[receivedroomid][receivedRound][0].receivedArbitreName
+              );
+              console.log(values[receivedroomid][receivedRound][0].receivedWinner);
+              console.log('hey------------------------------------'); */
       socket.on('connect', () => {
         // Get the URL and parse it
-        console.log(
-          `${username} connected to server as ${role} in room ${roomid}`
-        );
+        /* console.log(
+                       `${username} connected to server as ${role} in room ${roomid}`
+                     ); */
         socket.emit('login', { username, role, roomid });
       });
 
       socket.emit('request-values');
 
-      // Initialize a variable to store the values object on the admin page
-      /*  let values = {
-        1: [],
-        2: [],
-        3: [],
-      }; */
-
       const values = {};
 
       socket.on('receive-values', (data) => {
-        console.log(
-          'round : ' +
-            data.round +
-            ' AN : ' +
-            data.arbitreName +
-            ' Winner : ' +
-            data.winner
-        );
-
         const receivedRound = data.round;
         const receivedArbitreName = data.arbitreName;
         const receivedWinner = data.winner;
         const receivedroomid = data.roomid;
-
-        console.log(
-          `after recive and reasign : round ${receivedRound} arbname ${receivedArbitreName} winner ${receivedWinner} roomid ${receivedroomid}`
-        );
 
         // Initialize the object for the received room ID if necessary
         if (!values[receivedroomid]) {
@@ -837,72 +972,86 @@
           receivedWinner,
         });
 
-        console.log(
-          'This is your values object after assignment: ' +
-            JSON.stringify(values)
-        );
-
         let cardsRound1 = document.querySelectorAll(
-          `.card-assigned-value-${receivedroomid}-round1`
+          '.card-assigned-value-round1'
         );
         let cardsRound2 = document.querySelectorAll(
-          `.card-assigned-value-${receivedroomid}-round2`
+          '.card-assigned-value-round2'
         );
         let cardsRound3 = document.querySelectorAll(
-          `.card-assigned-value-${receivedroomid}-round3`
+          '.card-assigned-value-round3'
         );
 
-        console.log(cardsRound1 + ' ' + cardsRound2 + ' ' + cardsRound3);
         // Check that the values object is defined before accessing its properties
         if (values) {
+          console.log(
+            'hey badr im values here entered ' + JSON.stringify(values)
+          );
+
+          /* console.dir(values); */
+
           cardsRound1.forEach((card, index) => {
-            const round1Value = values[receivedroomid][1];
-            console.log();
+            const roundValue = values[receivedroomid][1][index];
             if (
-              round1Value &&
-              round1Value.receivedArbitreName === receivedArbitreName
+              roundValue &&
+              roundValue.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = round1Value.receivedArbitreName;
-              if (round1Value.receivedWinner === 'player1') {
+              card.innerHTML = roundValue.receivedArbitreName;
+              if (roundValue.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (round1Value.receivedWinner === 'player2') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (round1Value.receivedWinner === 'equal') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
+                card.innerText = receivedArbitreName;
               }
             }
           });
 
           cardsRound2.forEach((card, index) => {
-            const round2Value = values[receivedroomid][2];
+            const roundValue = values[receivedroomid][2][index];
             if (
-              round2Value &&
-              round2Value.receivedArbitreName === receivedArbitreName
+              roundValue &&
+              roundValue.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = round2Value.receivedArbitreName;
-              if (round2Value.receivedWinner === 'player1') {
+              console.log(
+                roundValue.receivedArbitreName + ' === ' + receivedArbitreName
+              );
+              card.innerHTML = roundValue.receivedArbitreName;
+              if (roundValue.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (round2Value.receivedWinner === 'player2') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (round2Value.receivedWinner === 'equal') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
+                card.innerText = receivedArbitreName;
               }
             }
           });
 
           cardsRound3.forEach((card, index) => {
-            const round3Value = values[receivedroomid][3];
+            const roundValue = values[receivedroomid][3][index];
             if (
-              round3Value &&
-              round3Value.receivedArbitreName === receivedArbitreName
+              roundValue &&
+              roundValue.receivedArbitreName === receivedArbitreName
             ) {
-              card.innerHTML = round3Value.receivedArbitreName;
-              if (round3Value.receivedWinner === 'player1') {
+              console.log(
+                roundValue.receivedArbitreName + ' === ' + receivedArbitreName
+              );
+              card.innerHTML = roundValue.receivedArbitreName;
+              if (roundValue.receivedWinner === 'player1') {
                 card.style.backgroundColor = 'blue';
-              } else if (round3Value.receivedWinner === 'player2') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'player2') {
                 card.style.backgroundColor = 'red';
-              } else if (round3Value.receivedWinner === 'equal') {
+                card.innerText = receivedArbitreName;
+              } else if (roundValue.receivedWinner === 'equal') {
                 card.style.backgroundColor = 'green';
+                card.innerText = receivedArbitreName;
               }
             }
           });
@@ -948,6 +1097,11 @@
             back.innerHTML = 0;
           });
         });
+
+      function tv() {
+        console.log('clicked tv');
+        socket.emit('fill-the-tv');
+      }
 
       /////////////////////////////////////////////////////////////////////////////////////////////////
       //tv players redirections
@@ -1213,12 +1367,12 @@
 
         if (winr === 'blue') {
           $('#alert-container').html(`<div class="alert alert-success" style="
-                    background-color: ${winr};
-                    color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
+                                 background-color: ${winr};
+                                 color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
         } else if (winr === 'red') {
           $('#alert-container').html(`<div class="alert alert-success" style="
-                    background-color: ${winr};
-                    color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
+                                 background-color: ${winr};
+                                 color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
         }
 
         var popup = document.querySelector('.popup');
@@ -1310,9 +1464,9 @@
       }
 
       /* window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        e.returnValue = '';
-      }); */
+                     e.preventDefault();
+                     e.returnValue = '';
+                   }); */
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

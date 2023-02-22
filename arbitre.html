@@ -115,6 +115,72 @@
           </button>
         </div>
       </div>
+      <div
+        class="decremented"
+        style="
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          justify-items: center;
+        "
+      >
+        <div
+          id="player1area-dec"
+          onclick="decrementValueblue()"
+          style="
+            width: 15%;
+            border: 1px solid #000;
+            background-color: blue;
+            height: 5rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 20px;
+          "
+        >
+          <span
+            style="
+              width: 5rem;
+              height: 50px;
+              font-weight: 900;
+              text-align: center;
+              color: #fff;
+              cursor: pointer;
+              display: inline-block;
+              line-height: 50px; /* Set the line-height equal to the height of the element */
+            "
+          >
+            Moins --
+          </span>
+        </div>
+        <div
+          id="player2area-dec"
+          onclick="decrementValuered()"
+          style="
+            width: 15%;
+            border: 1px solid #000;
+            background-color: red;
+            height: 5rem;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 20px;
+          "
+        >
+          <span
+            style="
+              width: 5rem;
+              height: 50px;
+              font-weight: 900;
+              text-align: center;
+              color: #fff;
+              cursor: pointer;
+              display: inline-block;
+              line-height: 50px; /* Set the line-height equal to the height of the element */
+            "
+          >
+            Moins --
+          </span>
+        </div>
+      </div>
       <div class="row justify-content-md-center">
         <div class="col">
           <br />
@@ -282,11 +348,37 @@
       function incrementValuebleu() {
         player1++;
         document.getElementById('player1area').innerHTML = player1;
+        socket.emit('updatePlayerValue', {
+          player: 'player1',
+          username: username,
+        });
       }
       function incrementValuered() {
         player2++;
         document.getElementById('player2area').innerHTML = player2;
+        socket.emit('updatePlayerValue', {
+          player: 'player2',
+          username: username,
+        });
       }
+      function decrementValuebleu() {
+        player1--;
+        document.getElementById('player1area-dec').innerHTML = player1;
+        socket.emit('updatePlayerValue-dec', {
+          player: 'player1',
+          username: username,
+        });
+      }
+
+      function decrementValuered() {
+        player2--;
+        document.getElementById('player2area-dec').innerHTML = player2;
+        socket.emit('updatePlayerValue-dec', {
+          player: 'player2',
+          username: username,
+        });
+      }
+
       window.addEventListener(
         'keydown',
         function (event) {
