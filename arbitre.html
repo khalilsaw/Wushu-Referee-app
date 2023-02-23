@@ -361,9 +361,12 @@
           username: username,
         });
       }
-      function decrementValuebleu() {
+      function decrementValueblue() {
+        if (player1 == 0) {
+          return;
+        }
         player1--;
-        document.getElementById('player1area-dec').innerHTML = player1;
+        document.getElementById('player1area').innerHTML = player1;
         socket.emit('updatePlayerValue-dec', {
           player: 'player1',
           username: username,
@@ -371,8 +374,11 @@
       }
 
       function decrementValuered() {
+        if (player2 == 0) {
+          return;
+        }
         player2--;
-        document.getElementById('player2area-dec').innerHTML = player2;
+        document.getElementById('player2area').innerHTML = player2;
         socket.emit('updatePlayerValue-dec', {
           player: 'player2',
           username: username,

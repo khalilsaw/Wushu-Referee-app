@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bootstrap demo</title>
+    <title>Players</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
@@ -111,28 +111,28 @@
 
       // Get the URL and parse it
       const url = new URL(window.location.href);
-      const username = url.pathname.split("/")[1];
-      const role = url.pathname.split("/")[2];
-      const roomid = url.pathname.split("/")[3];
+      const username = url.pathname.split('/')[1];
+      const role = url.pathname.split('/')[2];
+      const roomid = url.pathname.split('/')[3];
 
-      socket.on("connect", () => {
+      socket.on('connect', () => {
         console.log(
           `${username} connected to server as ${role} in room ${roomid}`
         );
-        socket.emit("login", { username, role, roomid });
+        socket.emit('login', { username, role, roomid });
       });
 
-      socket.on("redirect-player-to-tv-from-server", (url3) => {
+      socket.on('redirect-player-to-tv-from-server', (url3) => {
         window.location.replace(url3);
       });
       //////////////////////////////////////////////////////////////////////////////////
       const params = new URLSearchParams(window.location.search);
-      document.getElementById("p1n").innerHTML = params.get("param1");
-      document.getElementById("p1asso").innerHTML = params.get("param2");
-      document.getElementById("weight").innerHTML = params.get("param3");
-      document.getElementById("gender").innerHTML = params.get("param4");
-      document.getElementById("p2n").innerHTML = params.get("param5");
-      document.getElementById("p2asso").innerHTML = params.get("param6");
+      document.getElementById('p1n').innerHTML = params.get('param1');
+      document.getElementById('p1asso').innerHTML = params.get('param2');
+      document.getElementById('weight').innerHTML = params.get('param3');
+      document.getElementById('gender').innerHTML = params.get('param4');
+      document.getElementById('p2n').innerHTML = params.get('param5');
+      document.getElementById('p2asso').innerHTML = params.get('param6');
     </script>
     <script
       src="https://code.jquery.com/jquery-3.5.1.slim.min.js"

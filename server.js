@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const http = require('http');
+const { emit } = require('process');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 
@@ -35,7 +36,7 @@ io.on('connection', (socket) => {
     }
 
     if (!users.has(roomid)) {
-      users.set(roomid, [{ name: '', role: '', room: roomid }]);
+      users.set(roomid, []);
     }
 
     if (users.has(roomid)) {
@@ -113,6 +114,7 @@ io.on('connection', (socket) => {
     usersInRoom.push(user);
     users.set(roomid, usersInRoom);
     console.log(`User ${username} added to the users map `);
+    console.log('this is the new map');
     console.dir(users);
 
     // Add the user to the specified room
@@ -131,6 +133,59 @@ io.on('connection', (socket) => {
       io.to(roomid).emit('arbitre-to-tv', referees[roomid]);
     });
     //666666666666666666666666666666666666666666666666666
+
+    socket.on('rounds-winner', () => {
+      // Find all arbitre users and store their rounds in an object
+      const arbitreUsers = users
+        .get(roomid)
+        .filter((user) => user.role === 'arbitre');
+      const resultRounds = {
+        [roomid]: arbitreUsers.map((user) => user.rounds),
+      };
+
+      // Output the result
+      console.log('arbitreRounds');
+      console.log(resultRounds);
+
+      ///////////////////////////////////////////////////////
+      const numRounds = resultRounds[roomid][0].length; // get the number of rounds
+
+      const roundWinners = []; // an array to store the winner for each round
+
+      // loop through each round
+      for (let i = 0; i < numRounds; i++) {
+        let player1Wins = 0;
+        let player2Wins = 0;
+
+        // loop through each arbiter
+        for (let j = 0; j < resultRounds[roomid].length; j++) {
+          const result = resultRounds[roomid][j][i];
+          if (result === 'player1') {
+            player1Wins++;
+          } else if (result === 'player2') {
+            player2Wins++;
+          }
+        }
+
+        // determine the winner of the round based on the number of wins
+        if (player1Wins > player2Wins) {
+          roundWinners.push('player1');
+        } else if (player2Wins > player1Wins) {
+          roundWinners.push('player2');
+        } else {
+          roundWinners.push('equal');
+        }
+      }
+      console.log('hey im the array list : ' + roundWinners);
+      io.to(roomid).emit('rounds-winner-result', roundWinners);
+
+      // print the winners for each round
+      for (let i = 0; i < roundWinners.length; i++) {
+        const winner = roundWinners[i];
+        console.log(`Round ${i + 1}: ${winner} wins!`);
+      }
+    });
+
     //666666666666666666666666666666666666666666666666666
 
     // Assuming you have already set up a socket.io server connection

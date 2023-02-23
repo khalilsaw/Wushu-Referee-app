@@ -571,7 +571,7 @@
             onclick="incrementValuecardout_playerbleu()"
           >
             <img
-              src="img/out.png"
+              src="/img/out.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -620,7 +620,7 @@
             onclick="incrementValuecardcountdown_playerbleu()"
           >
             <img
-              src="img/countdown.png"
+              src="/img/countdown.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -639,7 +639,7 @@
             onclick="incrementValuecardout_playerred()"
           >
             <img
-              src="img/out.png"
+              src="/img/out.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -688,7 +688,7 @@
             onclick="incrementValuecardcountdown_playerred()"
           >
             <img
-              src="img/countdown.png"
+              src="/img/countdown.png"
               style="
                 width: 80px;
                 height: 90px;
@@ -931,18 +931,7 @@
       const role = url.pathname.split('/')[2];
       const roomid = url.pathname.split('/')[3];
 
-      /* console.log('hey------------------------------------');
-              console.dir(values);
-              console.log(
-                values[receivedroomid][receivedRound][0].receivedArbitreName
-              );
-              console.log(values[receivedroomid][receivedRound][0].receivedWinner);
-              console.log('hey------------------------------------'); */
       socket.on('connect', () => {
-        // Get the URL and parse it
-        /* console.log(
-                       `${username} connected to server as ${role} in room ${roomid}`
-                     ); */
         socket.emit('login', { username, role, roomid });
       });
 
@@ -1102,6 +1091,26 @@
         console.log('clicked tv');
         socket.emit('fill-the-tv');
       }
+
+      //get winner for rounds :
+      document.getElementById('hehoclicke').addEventListener('click', () => {
+        socket.emit('rounds-winner');
+      });
+      //listen to the winner in rounds
+      socket.on('rounds-winner-result', (roundWinners) => {
+        roundWinners.forEach((roundWinner, index) => {
+          const roundDiv = document.getElementById(`roundwith${index + 1}`);
+          if (roundDiv) {
+            if (roundWinner === 'player1') {
+              roundDiv.style.backgroundColor = 'blue';
+            } else if (roundWinner === 'player2') {
+              roundDiv.style.backgroundColor = 'red';
+            } else {
+              roundDiv.style.backgroundColor = 'green';
+            }
+          }
+        });
+      });
 
       /////////////////////////////////////////////////////////////////////////////////////////////////
       //tv players redirections
