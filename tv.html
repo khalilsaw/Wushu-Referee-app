@@ -122,19 +122,33 @@
 
     <br />
 
-    <div style="display: flex; justify-content: space-around">
+    <div style="display: flex; justify-content: space-evenly; margin: 0 auto">
       <div
         class="noted-player-1"
-        style="font-size: 10rem; font-weight: 900; padding-top: 5rem"
+        style="
+          display: flex;
+          font-size: 10rem;
+          font-weight: 900;
+          padding-top: 5rem;
+          flex-grow: 4;
+          justify-content: center;
+        "
       >
         0
       </div>
 
-      <div id="container-note-2"></div>
+      <div id="container-note-2" style="flex-grow: 4"></div>
 
       <div
         class="noted-player-2"
-        style="font-size: 10rem; font-weight: 900; padding-top: 5rem"
+        style="
+          display: flex;
+          font-size: 10rem;
+          font-weight: 900;
+          padding-top: 5rem;
+          flex-grow: 4;
+          justify-content: center;
+        "
       >
         0
       </div>
@@ -267,6 +281,25 @@
         console.log(`arbitre ${username} deleted`);
         removeReferee(username);
       });
+      ///////////////////////////////////////////////////////////////////////////////
+
+      //listen to round results =>
+      socket.on('round-result', (playertoincrement) => {});
+      /*  socket.on('rounds-winner-result', (roundWinners) => {
+        roundWinners.forEach((roundWinner) => {
+          const roundIndex = roundWinner.round;
+          const roundDiv = document.getElementById(`roundwith${roundIndex}`);
+          if (roundWinner.winner && roundDiv) {
+            if (roundWinner.winner === 'player1') {
+              roundDiv.style.backgroundColor = 'blue';
+            } else if (roundWinner.winner === 'player2') {
+              roundDiv.style.backgroundColor = 'red';
+            } else {
+              roundDiv.style.backgroundColor = 'green';
+            }
+          }
+        });
+      }); */
 
       //////////////////////////////////////////////////////////////////////////////////
 

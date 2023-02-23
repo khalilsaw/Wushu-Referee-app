@@ -28,6 +28,8 @@ io.on('connection', (socket) => {
   let adminsCount = 0;
   let arbitresCount = 0;
 
+  let round_spec_use = 0;
+
   socket.on('check-room', ({ username, role, roomid }, callback) => {
     const roomExists = rooms.includes(roomid);
     if (!roomExists) {
@@ -147,13 +149,13 @@ io.on('connection', (socket) => {
       console.log('arbitreRounds');
       console.log(resultRounds);
 
-      ///////////////////////////////////////////////////////
-      const numRounds = resultRounds[roomid][0].length; // get the number of rounds
+      // determine how many rounds to submit based on the current round
+      const numRoundsToSubmit = round_spec_use;
 
       const roundWinners = []; // an array to store the winner for each round
 
       // loop through each round
-      for (let i = 0; i < numRounds; i++) {
+      for (let i = 0; i < numRoundsToSubmit; i++) {
         let player1Wins = 0;
         let player2Wins = 0;
 
@@ -168,21 +170,35 @@ io.on('connection', (socket) => {
         }
 
         // determine the winner of the round based on the number of wins
+        let winner;
         if (player1Wins > player2Wins) {
-          roundWinners.push('player1');
+          winner = 'player1';
         } else if (player2Wins > player1Wins) {
-          roundWinners.push('player2');
+          winner = 'player2';
         } else {
-          roundWinners.push('equal');
+          winner = 'equal';
+        }
+
+        // store the round's winner as an object with a round number and winner key
+        roundWinners.push(winner);
+        console.log('hey im the array list : ' + roundWinners);
+      }
+
+      // submit null for the remaining rounds if necessary
+      if (numRoundsToSubmit < 3) {
+        for (let i = numRoundsToSubmit; i < 3; i++) {
+          roundWinners.push(null);
         }
       }
-      console.log('hey im the array list : ' + roundWinners);
+
       io.to(roomid).emit('rounds-winner-result', roundWinners);
 
       // print the winners for each round
       for (let i = 0; i < roundWinners.length; i++) {
         const winner = roundWinners[i];
-        console.log(`Round ${i + 1}: ${winner} wins!`);
+        console.log(
+          `Round ${i + 1}: ${winner ? `${winner} wins!` : 'No winner yet'}`
+        );
       }
     });
 
@@ -292,6 +308,7 @@ io.on('connection', (socket) => {
 
     // Listen for the 'select-round' event
     socket.on('select-round', (round) => {
+      round_spec_use = round;
       console.log(`Admin selected round ${round}`);
 
       // Emit an event to the arbitre client with the selected round value

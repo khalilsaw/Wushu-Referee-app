@@ -135,71 +135,8 @@
         font-size: 20px;
       }
     </style>
-    <div
-      class="popup"
-      style="
-        width: 50px;
-        position: absolute;
-        bottom: 90px;
-        left: 10%;
-        z-index: 1;
-        border-radius: 10px;
-      "
-    >
-      <!-- TEsting buble -->
-      <div class="container">
-        <ul id="menu">
-          <a class="menu-button icon-plus" href="#menu" title="Show navigation">
-            <span
-              class="fas fa-share-alt"
-              style="font-size: 3rem; font-weight: 900; color: #fff"
-            >
-              Tool
-            </span>
-          </a>
-          <a class="menu-button icon-minus" href="#0" title="Hide navigation">
-            <span
-              class="fas fa-share-alt"
-              style="font-size: 3rem; font-weight: 900; color: #fff"
-            >
-              Tool
-            </span>
-          </a>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-github"></span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span
-                class="fab fa-facebook"
-                style="cursor: pointer; text-align: center"
-                onclick="tv()"
-              >
-                TV
-              </span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-twitter"></span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-instagram"></span>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <!-- TEsting buble -->
 
-      <section
-        id="alert-container"
-        style="font-size: 60px; font-family: monospace; text-align: center"
-      ></section>
-    </div>
+    <!-- TEsting buble -->
 
     <nav class="navbar bg-light">
       <div class="container">
@@ -259,6 +196,10 @@
       </div>
     </nav>
     <br />
+    <section
+      id="alert-container"
+      style="font-size: 60px; font-family: monospace; text-align: center"
+    ></section>
 
     <hr />
     <div class="container text-center">
@@ -746,24 +687,13 @@
         </div>
         <div class="col col-3">
           <h3>Les catégories :</h3>
-          <select
-            class="form-select form-select-lg mb-3"
-            aria-label=".form-select-lg example"
+          <input
             id="categories"
-          >
-            <option selected>Choose...</option>
-            <option value="48kg">48kg</option>
-            <option value="52kg">52kg</option>
-            <option value="56kg">56kg</option>
-            <option value="60kg">60kg</option>
-            <option value="65kg">65kg</option>
-            <option value="70kg">70kg</option>
-            <option value="75kg">75kg</option>
-            <option value="80kg">80kg</option>
-            <option value="85kg">85kg</option>
-            <option value="90kg">90kg</option>
-            <option value="+90kg">+90kg</option>
-          </select>
+            type="text"
+            class="form-control"
+            placeholder="Weight"
+            style="margin-bottom: 20px"
+          />
           <div class="row">
             <div class="col">
               <input
@@ -874,6 +804,64 @@
         </div>
       </div>
     </div>
+    <div
+      style="
+        width: 50px;
+        position: absolute;
+        bottom: 90px;
+        left: 10%;
+        z-index: 1;
+        border-radius: 10px;
+      "
+    >
+      <!-- TEsting buble -->
+      <div class="container">
+        <ul id="menu">
+          <a class="menu-button icon-plus" href="#menu" title="Show navigation">
+            <span
+              class="fas fa-share-alt"
+              style="font-size: 3rem; font-weight: 900; color: #fff"
+            >
+              Tool
+            </span>
+          </a>
+          <a class="menu-button icon-minus" href="#0" title="Hide navigation">
+            <span
+              class="fas fa-share-alt"
+              style="font-size: 3rem; font-weight: 900; color: #fff"
+            >
+              Tool
+            </span>
+          </a>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-github"></span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span
+                class="fab fa-facebook"
+                style="cursor: pointer; text-align: center"
+                onclick="tv()"
+              >
+                TV
+              </span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-twitter"></span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="#menu">
+              <span class="fab fa-instagram"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
 
     <br />
     <br />
@@ -907,22 +895,6 @@
         Valuecardyellow_playerred = 0,
         Valuecardbleu_playerred = 0,
         Valuecardred_playerred = 0;
-
-      function showAlert(round) {
-        $('#alert-container').html(
-          `<div class="alert alert-success" role="alert">Round : ${round} !</div>`
-        );
-
-        var popup = document.querySelector('.popup');
-        if (popup.style.display === 'none') {
-          popup.style.display = 'block';
-          setTimeout(function () {
-            popup.style.display = 'none';
-          }, 2000);
-        } else {
-          popup.style.display = 'none';
-        }
-      }
 
       const url = new URL(window.location.href);
       const vurl = url.pathname.split('/')[0];
@@ -1046,6 +1018,48 @@
           });
         }
       });
+      function hidePopup() {
+        setTimeout(function () {
+          var popup = document.querySelector('.popup');
+          if (popup.style.display === 'none') {
+            popup.style.display = 'block';
+            setTimeout(function () {
+              popup.style.display = 'none';
+            }, 2000);
+          } else {
+            popup.style.display = 'none';
+          }
+        }, 2000);
+      }
+
+      function showAlerted(type, round, winner) {
+        let message = '';
+        let backgroundColor = '';
+
+        if (type === 'round') {
+          message = `Round: ${round}`;
+          backgroundColor = '#17a2b8';
+        } else if (type === 'winner') {
+          message = `Winner in round ${round}: ${winner}`;
+          backgroundColor = '#28a745';
+        } else if (type === 'end') {
+          if (winner == 'player1') {
+            message = `Fin de match winner: Blue`;
+            backgroundColor = 'blue';
+          } else if (winner == 'player2') {
+            message = `Fin de match winner: Red`;
+            backgroundColor = 'Red';
+          } else {
+            message = `Fin de match egalite`;
+            backgroundColor = 'green';
+          }
+        }
+
+        let alertHtml = `<div class="alert alert-success popup" style="background-color: ${backgroundColor}; color: #fff;" role="alert">${message}</div>`;
+        $('#alert-container').append(alertHtml);
+
+        hidePopup();
+      }
 
       //////////////////////////////////////////////////////////////////////////////////////////////
       const round = document.getElementById('round-select').value;
@@ -1072,7 +1086,9 @@
           socket.emit('redirect-player-to-tv', url3);
           console.log('redirect players to tv ' + url3);
 
-          showAlert(round);
+          /* showAlert(round); */
+          showAlert('round', round, '');
+
           console.log('alert shown');
           Valuecardout_playerred = 0;
           Valuecardout_playerbleu = 0;
@@ -1082,6 +1098,7 @@
           Valuecardyellow_playerred = 0;
           Valuecardbleu_playerred = 0;
           Valuecardred_playerred = 0;
+
           document.querySelectorAll('.backtozero').forEach((back) => {
             back.innerHTML = 0;
           });
@@ -1105,8 +1122,10 @@
               roundDiv.style.backgroundColor = 'blue';
             } else if (roundWinner === 'player2') {
               roundDiv.style.backgroundColor = 'red';
-            } else {
+            } else if (roundWinner == 'equal') {
               roundDiv.style.backgroundColor = 'green';
+            } else {
+              return;
             }
           }
         });
@@ -1248,7 +1267,9 @@
       /////////////////////////////////////////////////////////////////////////
 
       function winnerblue() {
-        showAlert3('blue');
+        /* showAlert3('blue'); */
+        showAlert('end', '', 'player1');
+
         const param1 = document.getElementById('bleuplayer').value;
         console.log(param1);
         const param2 = document.getElementById('bleuplayerassociation').value;
@@ -1290,7 +1311,9 @@
       /////////////////////////////////////////////////////////////////////////
 
       function winnerRed() {
-        showAlert3('red');
+        /* showAlert3('red'); */
+        showAlert('end', '', 'player2');
+
         const param1 = document.getElementById('redplayer').value;
         const param2 = document.getElementById('redplayerassociation').value;
         const param3 = document.getElementById('categories').value;
@@ -1341,6 +1364,8 @@
           const param4 = '-';
           const param5 = 'green';
 
+          showAlerted('end', '', '');
+
           console.log(
             param1 + ' ' + param2 + ' ' + param3 + ' ' + param4 + ' ' + param5
           );
@@ -1352,48 +1377,6 @@
 
       /////////////////////////////////////////////////////////////////////////////////
       /////////////////////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////////////////////
-
-      function showAlert2(round, countIn) {
-        //change color to red
-        $('#alert-container').html(
-          `<div class="alert alert-success" role="alert">Winner in round ${round} : ${countIn}!</div>`
-        );
-
-        var popup = document.querySelector('.popup');
-        if (popup.style.display === 'none') {
-          popup.style.display = 'block';
-          setTimeout(function () {
-            popup.style.display = 'none';
-          }, 5000);
-        } else {
-          popup.style.display = 'none';
-        }
-      }
-
-      function showAlert3(winr) {
-        //change color to red
-
-        if (winr === 'blue') {
-          $('#alert-container').html(`<div class="alert alert-success" style="
-                                 background-color: ${winr};
-                                 color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
-        } else if (winr === 'red') {
-          $('#alert-container').html(`<div class="alert alert-success" style="
-                                 background-color: ${winr};
-                                 color: #fff; role="alert">Fin de match winner :  ${winr} !</div>`);
-        }
-
-        var popup = document.querySelector('.popup');
-        if (popup.style.display === 'none') {
-          popup.style.display = 'block';
-          setTimeout(function () {
-            popup.style.display = 'none';
-          }, 10000);
-        } else {
-          popup.style.display = 'none';
-        }
-      }
       // increment Value card blue plyredaer
       var Valuecardyellow_playerbleu = 0,
         Valuecardbleu_playerbleu = 0,
