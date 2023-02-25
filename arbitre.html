@@ -294,6 +294,11 @@
 
         showAlert(selectedRound);
 
+        player1 = 0;
+        player2 = 0;
+        document.getElementById('player2area').innerHTML = player2;
+        document.getElementById('player1area').innerHTML = player1;
+
         console.log(selectedRound + ' but from arbitre');
       });
 
@@ -409,9 +414,7 @@
 
       //rest btn
       const resetP = () => {
-        (player1 = 0), (player2 = 0);
-        document.getElementById('player2area').innerHTML = player2;
-        document.getElementById('player1area').innerHTML = player1;
+        console.log('reset');
       };
 
       socket.on('redirect-tv-to-winner-from-server', (url) => {
