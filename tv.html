@@ -34,7 +34,7 @@
         flex-direction: row;
         justify-content: space-between;
       }
-      #referees_gow {
+      .referees_gow {
         display: flex;
         justify-content: center;
         align-content: center;
@@ -49,10 +49,9 @@
         text-align: center;
       }
 
-      #referees_gow > h2,
+      .referees_gow > h2,
       p {
         font-size: 24px;
-        line-height: 1.5;
         margin: 0;
       }
       .arb {
@@ -199,8 +198,10 @@
             referees.push(arbitre);
             const div = document.createElement('div');
             div.setAttribute('id', `referee-${arbitre}`);
-            div.setAttribute('id', `referees_gow`);
-            div.setAttribute('class', `arb`);
+            /* div.setAttribute('id', `referees_gow`); */
+            div.classList.add('arb');
+            div.classList.add('referees_gow');
+
             div.innerHTML = `
         <h2 style="flex-grow:4;">${arbitre}</h2>
         <p style="flex-grow:4;" class="right-arb"><span id="referee-${arbitre}-blue-score">0</span></p>
@@ -225,13 +226,23 @@
         if (arbiterIndex !== -1) {
           // Get the ID of the corresponding score div
           const player = data.playertoup;
+          console.log(player);
           const scoreId = `referee-${arbiter}-${
             player === 'player1' ? 'blue' : 'red'
           }-score`;
 
+          console.log('arbiter:', arbiter);
+          console.log('player:', player);
+          console.log('scoreId:', scoreId);
+
           // Get the current score value
           const currentScore = document.getElementById(scoreId).innerHTML;
 
+          console.log(
+            currentScore +
+              ' ' +
+              document.getElementById('referee-badr-blue-score')
+          );
           // Update the score value
           const newScore = parseInt(currentScore) + 1;
           document.getElementById(scoreId).innerHTML = newScore;
