@@ -52,6 +52,7 @@
       .referees_gow > h2,
       p {
         font-size: 24px;
+        line-height: 1.5;
         margin: 0;
       }
       .arb {
@@ -197,15 +198,13 @@
           if (!referees.includes(arbitre)) {
             referees.push(arbitre);
             const div = document.createElement('div');
-            div.setAttribute('id', `referee-${arbitre}`);
-            /* div.setAttribute('id', `referees_gow`); */
+            div.setAttribute('class', `arb`);
             div.classList.add('arb');
             div.classList.add('referees_gow');
-
             div.innerHTML = `
         <h2 style="flex-grow:4;">${arbitre}</h2>
-        <p style="flex-grow:4;" class="right-arb"><span id="referee-${arbitre}-blue-score">0</span></p>
-        <p style="flex-grow:4;" class="left-arb"><span id="referee-${arbitre}-red-score">0</span></p>
+        <p style="flex-grow:4;" class="right-arb" id="referee-${arbitre}-blue-score">0</p>
+        <p style="flex-grow:4;" class="left-arb" id="referee-${arbitre}-red-score">0</p>
       `;
             const container = document.getElementById('container-note-2');
             console.log('im the container ' + container);
@@ -226,23 +225,10 @@
         if (arbiterIndex !== -1) {
           // Get the ID of the corresponding score div
           const player = data.playertoup;
-          console.log(player);
           const scoreId = `referee-${arbiter}-${
             player === 'player1' ? 'blue' : 'red'
           }-score`;
-
-          console.log('arbiter:', arbiter);
-          console.log('player:', player);
-          console.log('scoreId:', scoreId);
-
-          // Get the current score value
-          const currentScore = document.getElementById(scoreId).innerHTML;
-
-          console.log(
-            currentScore +
-              ' ' +
-              document.getElementById('referee-badr-blue-score')
-          );
+          const currentScore = document.getElementById(scoreId)?.innerHTML || 0;
           // Update the score value
           const newScore = parseInt(currentScore) + 1;
           document.getElementById(scoreId).innerHTML = newScore;
@@ -254,21 +240,6 @@
         } else {
           // Handle the case when the arbiter does not exist
           console.log(`Arbiter ${arbiter} does not exist`);
-        }
-      });
-
-      socket.on('selected-round', () => {
-        const rightArbElements = document.getElementsByClassName('right-arb');
-        const leftArbElements = document.getElementsByClassName('left-arb');
-        const player1 = 0;
-        const player2 = 0;
-
-        for (let i = 0; i < rightArbElements.length; i++) {
-          rightArbElements[i].innerHTML = player1;
-        }
-
-        for (let i = 0; i < leftArbElements.length; i++) {
-          leftArbElements[i].innerHTML = player2;
         }
       });
 
@@ -286,10 +257,7 @@
           const scoreId = `referee-${arbiter}-${
             player === 'player1' ? 'blue' : 'red'
           }-score`;
-
-          // Get the current score value
-          const currentScore = document.getElementById(scoreId).innerHTML;
-
+          const currentScore = document.getElementById(scoreId)?.innerHTML || 0;
           // Update the score value
           const newScore = parseInt(currentScore) - 1;
           document.getElementById(scoreId).innerHTML = newScore;
@@ -301,6 +269,19 @@
         } else {
           // Handle the case when the arbiter does not exist
           console.log(`Arbiter ${arbiter} does not exist`);
+        }
+      });
+
+      socket.on('selected-round', () => {
+        const rightArbElements = document.getElementsByClassName('right-arb');
+        const leftArbElements = document.getElementsByClassName('left-arb');
+
+        for (let i = 0; i < rightArbElements.length; i++) {
+          rightArbElements[i].innerHTML = 0;
+        }
+
+        for (let i = 0; i < leftArbElements.length; i++) {
+          leftArbElements[i].innerHTML = 0;
         }
       });
 
