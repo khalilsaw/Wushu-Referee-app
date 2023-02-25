@@ -34,15 +34,26 @@
         flex-direction: row;
         justify-content: space-between;
       }
-      #container-note-2 {
-        margin: 0 auto;
+      #referees_gow {
         display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+      }
+      #container-note-2 {
         margin: 0 auto;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-content: center;
         align-items: center;
+        text-align: center;
+      }
+
+      #referees_gow > h2,
+      p {
+        font-size: 24px;
+        line-height: 1.5;
+        margin: 0;
       }
       .arb {
         text-align: center;
@@ -91,8 +102,8 @@
           "
         >
           <h1 style="font-weight: 900; margin-top: 5px">Player :</h1>
-          <span id="player-name" style="display: block">test</span>
-          <span id="assossiation">hest</span>
+          <span id="p1n" style="display: block">test</span>
+          <span id="p1asso">hest</span>
         </div>
       </div>
       <!-- ------------------------- -->
@@ -114,8 +125,8 @@
           "
         >
           <h1 style="font-weight: 900; margin-top: 5px">Player :</h1>
-          <span id="player-name" style="display: block">test</span>
-          <span id="assossiation">hest</span>
+          <span id="p2n" style="display: block">test</span>
+          <span id="p2asso">hest</span>
         </div>
       </div>
     </div>
@@ -125,6 +136,7 @@
     <div style="display: flex; justify-content: space-evenly; margin: 0 auto">
       <div
         class="noted-player-1"
+        id="value_blue_pl"
         style="
           display: flex;
           font-size: 10rem;
@@ -141,6 +153,7 @@
 
       <div
         class="noted-player-2"
+        id="value_red_pl"
         style="
           display: flex;
           font-size: 10rem;
@@ -186,11 +199,12 @@
             referees.push(arbitre);
             const div = document.createElement('div');
             div.setAttribute('id', `referee-${arbitre}`);
+            div.setAttribute('id', `referees_gow`);
             div.setAttribute('class', `arb`);
             div.innerHTML = `
-        <h2>${arbitre}</h2>
-        <p class="right-arb"><span id="referee-${arbitre}-blue-score">0</span></p>
-        <p class="left-arb"><span id="referee-${arbitre}-red-score">0</span></p>
+        <h2 style="flex-grow:4;">${arbitre}</h2>
+        <p style="flex-grow:4;" class="right-arb"><span id="referee-${arbitre}-blue-score">0</span></p>
+        <p style="flex-grow:4;" class="left-arb"><span id="referee-${arbitre}-red-score">0</span></p>
       `;
             const container = document.getElementById('container-note-2');
             console.log('im the container ' + container);
@@ -229,6 +243,19 @@
         } else {
           // Handle the case when the arbiter does not exist
           console.log(`Arbiter ${arbiter} does not exist`);
+        }
+      });
+
+      socket.on('selected-round', () => {
+        const rightArbElements = document.getElementsByClassName('right-arb');
+        const leftArbElements = document.getElementsByClassName('left-arb');
+
+        for (let i = 0; i < rightArbElements.length; i++) {
+          rightArbElements[i].innerHTML = 0;
+        }
+
+        for (let i = 0; i < leftArbElements.length; i++) {
+          leftArbElements[i].innerHTML = 0;
         }
       });
 
@@ -281,25 +308,27 @@
         console.log(`arbitre ${username} deleted`);
         removeReferee(username);
       });
-      ///////////////////////////////////////////////////////////////////////////////
 
-      //listen to round results =>
-      socket.on('round-result', (playertoincrement) => {});
-      /*  socket.on('rounds-winner-result', (roundWinners) => {
-        roundWinners.forEach((roundWinner) => {
-          const roundIndex = roundWinner.round;
-          const roundDiv = document.getElementById(`roundwith${roundIndex}`);
-          if (roundWinner.winner && roundDiv) {
-            if (roundWinner.winner === 'player1') {
-              roundDiv.style.backgroundColor = 'blue';
-            } else if (roundWinner.winner === 'player2') {
-              roundDiv.style.backgroundColor = 'red';
-            } else {
-              roundDiv.style.backgroundColor = 'green';
-            }
-          }
-        });
-      }); */
+      ///////////////////////////////////////////////////////////////////////////////
+      let value_blue_pl = 0;
+      let value_red_pl = 0;
+
+      function incremnet_blue_pl() {
+        value_blue_pl++;
+        document.getElementById('value_blue_pl').innerHTML = value_blue_pl;
+      }
+      function incremnet_red_pl() {
+        value_red_pl++;
+        document.getElementById('value_red_pl').innerHTML = value_red_pl;
+      }
+
+      socket.on('increment-winR', (winnerR) => {
+        if (winnerR == 'blue') {
+          incremnet_blue_pl();
+        } else if (winnerR == 'red') {
+          incremnet_red_pl();
+        }
+      });
 
       //////////////////////////////////////////////////////////////////////////////////
 
@@ -374,6 +403,12 @@
         console.log(url + 'from tv');
         window.location.replace(url);
       });
+
+      const params = new URLSearchParams(window.location.search);
+      document.getElementById('p1n').innerHTML = params.get('param1');
+      document.getElementById('p1asso').innerHTML = params.get('param2');
+      document.getElementById('p2n').innerHTML = params.get('param5');
+      document.getElementById('p2asso').innerHTML = params.get('param6');
 
       socket.on('redirect-tv-to-players-from-server', (url2) => {
         console.log(url2 + 'from admin');

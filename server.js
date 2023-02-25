@@ -153,7 +153,7 @@ io.on('connection', (socket) => {
       const numRoundsToSubmit = round_spec_use;
 
       const roundWinners = []; // an array to store the winner for each round
-
+      let winner;
       // loop through each round
       for (let i = 0; i < numRoundsToSubmit; i++) {
         let player1Wins = 0;
@@ -170,11 +170,13 @@ io.on('connection', (socket) => {
         }
 
         // determine the winner of the round based on the number of wins
-        let winner;
+
         if (player1Wins > player2Wins) {
           winner = 'player1';
+          //emit to the tv to increment the winner blue
         } else if (player2Wins > player1Wins) {
           winner = 'player2';
+          //emit to the tv to increment the winner blue
         } else {
           winner = 'equal';
         }
@@ -189,6 +191,14 @@ io.on('connection', (socket) => {
         for (let i = numRoundsToSubmit; i < 3; i++) {
           roundWinners.push(null);
         }
+      }
+
+      if (winner == 'player1') {
+        io.to(roomid).emit('increment-winR', 'blue');
+        console.log('hey im the increment pl blue');
+      } else if (winner == 'player2') {
+        io.to(roomid).emit('increment-winR', 'red');
+        console.log('hey im the increment pl red');
       }
 
       io.to(roomid).emit('rounds-winner-result', roundWinners);

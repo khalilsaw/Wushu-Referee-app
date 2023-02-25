@@ -23,108 +23,6 @@
         text-align: center;
         min-height: 100vh;
       }
-      #hehoclicke {
-        transition: transform 0.3s ease-out;
-      }
-
-      #hehoclicke:hover {
-        transform: scale(1.2) translateZ(40px);
-      }
-
-      #hehoclicke:active {
-        transform: scale(0.5) translateZ(-20px);
-      }
-      #menu {
-        width: 150px;
-        height: 150px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin: -75px 0 0 -75px;
-        list-style: none;
-        font-size: 200%;
-      }
-
-      .menu-button {
-        opacity: 0;
-        z-index: -1;
-      }
-
-      .menu-button {
-        width: 150px;
-        height: 150px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        margin: -75px 0 0 -75px;
-        border-radius: 50%;
-        background: #424242;
-        background-size: 100%;
-        overflow: hidden;
-        text-decoration: none;
-        line-height: 150px;
-        color: #fff;
-      }
-
-      #menu:not(:target) > a:first-of-type,
-      #menu:target > a:last-of-type {
-        opacity: 1;
-        z-index: 1;
-      }
-
-      #menu:not(:target) > .icon-plus:before,
-      #menu:target > .icon-minus:before {
-        opacity: 1;
-      }
-
-      .menu-item {
-        width: 70px;
-        height: 70px;
-        position: absolute;
-        left: 55%;
-        line-height: 5px;
-        top: 50%;
-        margin: -50px 0 0 -50px;
-        border-radius: 50%;
-        background-color: #424242;
-        transform: translate(0px, 0px);
-        transition: transform 500ms;
-        z-index: -2;
-        transition: 0.5s;
-      }
-
-      .menu-item:hover {
-        opacity: 0.5;
-        box-shadow: 0 5px 10px black;
-      }
-
-      .menu-item a {
-        color: #fff;
-        position: relative;
-        top: 30%;
-        left: 0;
-        text-decoration: none;
-      }
-
-      #menu:target > .menu-item:nth-child(6) {
-        transform: rotate(60deg) translateY(-150px) rotate(300deg);
-        transition-delay: 0s;
-      }
-
-      #menu:target > .menu-item:nth-child(5) {
-        transform: rotate(20deg) translateY(-155px) rotate(-20deg);
-        transition-delay: 0.1s;
-      }
-
-      #menu:target > .menu-item:nth-child(3) {
-        transform: rotate(-20deg) translateY(-155px) rotate(20deg);
-        transition-delay: 0.2s;
-      }
-
-      #menu:target > .menu-item:nth-child(4) {
-        transform: rotate(-60deg) translateY(-150px) rotate(60deg);
-        transition-delay: 0.3s;
-      }
 
       .content {
         position: absolute;
@@ -157,6 +55,7 @@
             </select>
             <button
               type="submit"
+              id="gogo"
               class="btn btn-secondary"
               style="width: 14rem"
             >
@@ -190,6 +89,7 @@
             <i class="bi bi-arrow-clockwise"></i>
           </button>
         </a>
+        <button class="btn btn-secondary btn-lg" onclick="tv()">TV</button>
         <a class="navbar-brand" href="#">
           <img src="/img/logo2.png" alt="Bootstrap" width="120" height="auto" />
         </a>
@@ -219,22 +119,23 @@
         <div class="col">
           <div class="card-header" style="max-width: 9rem">Arbitre 5</div>
         </div>
-        <div class="col">
-          <div
-            class="card-header"
+        <div class="col hyr">
+          <button
+            type="button"
             id="hehoclicke"
+            class="btn btn-secondary card-header"
             style="
-              max-width: 14rem;
-              cursor: pointer;
+              width: 200px;
               background-color: lightgray;
               color: #000;
               padding: 10px;
+              border: none;
               margin-bottom: 10px;
               border-radius: 10px;
             "
           >
-            Resulta
-          </div>
+            Resulta :
+          </button>
         </div>
       </div>
       <!--round 1-->
@@ -499,173 +400,7 @@
         </div>
       </div>
     </div>
-    <br />
 
-    <hr />
-    <div class="container text-center">
-      <div class="row align-items-start">
-        <div class="col text-bg-primary">
-          <h3>Cart pour Bleu</h3>
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="incrementValuecardout_playerbleu()"
-          >
-            <img
-              src="/img/out.png"
-              style="
-                width: 80px;
-                height: 90px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-              "
-            />
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="incrementValuecardyellow_playerbleu()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: yellow"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="incrementValuecardbleu_playerbleu()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: blue"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="incrementValuecardred_playerbleu()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: red"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-primary"
-            type="button"
-            onclick="incrementValuecardcountdown_playerbleu()"
-          >
-            <img
-              src="/img/countdown.png"
-              style="
-                width: 80px;
-                height: 90px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-              "
-            />
-          </button>
-        </div>
-
-        <div class="col text-bg-danger">
-          <h3>Cart pour Rouge</h3>
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="incrementValuecardout_playerred()"
-          >
-            <img
-              src="/img/out.png"
-              style="
-                width: 80px;
-                height: 90px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-              "
-            />
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="incrementValuecardyellow_playerred()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: yellow"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="incrementValuecardbleu_playerred()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: blue"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="incrementValuecardred_playerred()"
-          >
-            <i
-              class="bi bi-file-earmark-fill"
-              style="font-size: 5rem; color: red"
-            ></i>
-          </button>
-          &nbsp;
-          <button
-            class="btn btn-danger"
-            type="button"
-            onclick="incrementValuecardcountdown_playerred()"
-          >
-            <img
-              src="/img/countdown.png"
-              style="
-                width: 80px;
-                height: 90px;
-                margin-top: 15px;
-                margin-bottom: 15px;
-              "
-            />
-          </button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col text-bg-primary" style="font-size: 2rem">
-          <span id="incrementValuecardout_playerbleu">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardyellow_playerbleu">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardbleu_playerbleu">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardred_playerbleu">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardcountdown_playerbleu">0</span>
-        </div>
-
-        <div class="col text-bg-danger" style="font-size: 2rem">
-          <span id="incrementValuecardout_playerred">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardyellow_playerred">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardbleu_playerred">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardred_playerred">0</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <span id="incrementValuecardcountdown_playerred">0</span>
-        </div>
-      </div>
-    </div>
     <hr />
     <div class="container text-center">
       <div class="row">
@@ -763,6 +498,171 @@
     </div>
 
     <div class="container text-center">
+      <div class="row align-items-start">
+        <div class="col text-bg-primary">
+          <h3>Cart pour Bleu</h3>
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementCardValueBlue('out')"
+          >
+            <img
+              src="/img/out.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementCardValueBlue('yellow')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: yellow"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementCardValueBlue('blue')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: blue"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementCardValueBlue('red')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: red"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary"
+            type="button"
+            onclick="incrementCardValueBlue('countdown')"
+          >
+            <img
+              src="/img/countdown.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
+          </button>
+        </div>
+
+        <div class="col text-bg-danger">
+          <h3>Cart pour Rouge</h3>
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementCardValueRed('out')"
+          >
+            <img
+              src="/img/out.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementCardValueRed('yellow')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: yellow"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementCardValueRed('blue')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: blue"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementCardValueRed('red')"
+          >
+            <i
+              class="bi bi-file-earmark-fill"
+              style="font-size: 5rem; color: red"
+            ></i>
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-danger"
+            type="button"
+            onclick="incrementCardValueRed('countdown')"
+          >
+            <img
+              src="/img/countdown.png"
+              style="
+                width: 80px;
+                height: 90px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+              "
+            />
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-bg-primary" style="font-size: 2rem">
+          <span id="incrementValuecardout_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardyellow_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardbleu_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardred_playerbleu">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardcountdown_playerbleu">0</span>
+        </div>
+
+        <div class="col text-bg-danger" style="font-size: 2rem">
+          <span id="incrementValuecardout_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardyellow_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardbleu_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardred_playerred">0</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span id="incrementValuecardcountdown_playerred">0</span>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="container text-center">
       <div class="row">
         <div class="col" style="font-size: 2rem">
           <h1>Winner :</h1>
@@ -814,53 +714,16 @@
         border-radius: 10px;
       "
     >
-      <!-- TEsting buble -->
-      <div class="container">
-        <ul id="menu">
-          <a class="menu-button icon-plus" href="#menu" title="Show navigation">
-            <span
-              class="fas fa-share-alt"
-              style="font-size: 3rem; font-weight: 900; color: #fff"
-            >
-              Tool
-            </span>
-          </a>
-          <a class="menu-button icon-minus" href="#0" title="Hide navigation">
-            <span
-              class="fas fa-share-alt"
-              style="font-size: 3rem; font-weight: 900; color: #fff"
-            >
-              Tool
-            </span>
-          </a>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-github"></span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span
-                class="fab fa-facebook"
-                style="cursor: pointer; text-align: center"
-                onclick="tv()"
-              >
-                TV
-              </span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-twitter"></span>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="#menu">
-              <span class="fab fa-instagram"></span>
-            </a>
-          </li>
-        </ul>
-      </div>
+      <!-- Tv controller -->
+      <!-- <button>
+        <span
+          class="fab fa-facebook"
+          style="cursor: pointer; text-align: center; width: 100%; height: auto"
+          onclick="tv()"
+        >
+          TV
+        </span>
+      </button> -->
     </div>
 
     <br />
@@ -869,11 +732,6 @@
     <br />
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      const r_1 = document.getElementById('roundwith1');
-      const r_2 = document.getElementById('roundwith2');
-      const r_3 = document.getElementById('roundwith3');
-      console.log('its the R1 R2 R3 : ' + r_1 + ' ' + r_2 + ' ' + r_3);
-
       const socket = io();
       const arbitreIds = [];
       let pl1 = 0;
@@ -887,14 +745,18 @@
       let counterrsound = new Audio('/sound/countdown5s.mp3');
       let counterrsound2 = new Audio('/sound/countdown5s.mp3');
       let billsound = new Audio('/sound/bell.mp3');
-      var Valuecardout_playerbleu = 0,
-        Valuecardyellow_playerbleu = 0,
-        Valuecardbleu_playerbleu = 0,
-        Valuecardred_playerbleu = 0;
-      var Valuecardout_playerred = 0,
-        Valuecardyellow_playerred = 0,
-        Valuecardbleu_playerred = 0,
-        Valuecardred_playerred = 0;
+      // Variable declarations
+      let valueCardOutPlayerBlue = 0;
+      let valueCardYellowPlayerBlue = 0;
+      let valueCardBluePlayerBlue = 0;
+      let valueCardRedPlayerBlue = 0;
+      let valueCardCountdownPlayerBlue = 0;
+
+      let valueCardOutPlayerRed = 0;
+      let valueCardYellowPlayerRed = 0;
+      let valueCardBluePlayerRed = 0;
+      let valueCardRedPlayerRed = 0;
+      let valueCardCountdownPlayerRed = 0;
 
       const url = new URL(window.location.href);
       const vurl = url.pathname.split('/')[0];
@@ -952,68 +814,92 @@
           /* console.dir(values); */
 
           cardsRound1.forEach((card, index) => {
-            const roundValue = values[receivedroomid][1][index];
             if (
-              roundValue &&
-              roundValue.receivedArbitreName === receivedArbitreName
+              receivedroomid in values &&
+              values[receivedroomid][1] &&
+              values[receivedroomid][1][index]
             ) {
-              card.innerHTML = roundValue.receivedArbitreName;
-              if (roundValue.receivedWinner === 'player1') {
-                card.style.backgroundColor = 'blue';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'player2') {
-                card.style.backgroundColor = 'red';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'equal') {
-                card.style.backgroundColor = 'green';
-                card.innerText = receivedArbitreName;
+              const roundValue = values[receivedroomid][1][index];
+              if (
+                roundValue &&
+                roundValue.receivedArbitreName === receivedArbitreName
+              ) {
+                card.innerHTML = roundValue.receivedArbitreName;
+                if (roundValue.receivedWinner === 'player1') {
+                  card.style.backgroundColor = 'blue';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'player2') {
+                  card.style.backgroundColor = 'red';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'equal') {
+                  card.style.backgroundColor = 'green';
+                  card.innerText = receivedArbitreName;
+                }
               }
+            } else {
+              console.log('this round not played yet ...... ' + receivedRound);
             }
           });
 
           cardsRound2.forEach((card, index) => {
-            const roundValue = values[receivedroomid][2][index];
             if (
-              roundValue &&
-              roundValue.receivedArbitreName === receivedArbitreName
+              receivedroomid in values &&
+              values[receivedroomid][2] &&
+              values[receivedroomid][2][index]
             ) {
-              console.log(
-                roundValue.receivedArbitreName + ' === ' + receivedArbitreName
-              );
-              card.innerHTML = roundValue.receivedArbitreName;
-              if (roundValue.receivedWinner === 'player1') {
-                card.style.backgroundColor = 'blue';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'player2') {
-                card.style.backgroundColor = 'red';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'equal') {
-                card.style.backgroundColor = 'green';
-                card.innerText = receivedArbitreName;
+              const roundValue = values[receivedroomid][2][index];
+              if (
+                roundValue &&
+                roundValue.receivedArbitreName === receivedArbitreName
+              ) {
+                console.log(
+                  roundValue.receivedArbitreName + ' === ' + receivedArbitreName
+                );
+                card.innerHTML = roundValue.receivedArbitreName;
+                if (roundValue.receivedWinner === 'player1') {
+                  card.style.backgroundColor = 'blue';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'player2') {
+                  card.style.backgroundColor = 'red';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'equal') {
+                  card.style.backgroundColor = 'green';
+                  card.innerText = receivedArbitreName;
+                }
               }
+            } else {
+              console.log('this round not played yet ...... ' + receivedRound);
             }
           });
 
           cardsRound3.forEach((card, index) => {
-            const roundValue = values[receivedroomid][3][index];
             if (
-              roundValue &&
-              roundValue.receivedArbitreName === receivedArbitreName
+              receivedroomid in values &&
+              values[receivedroomid][3] &&
+              values[receivedroomid][3][index]
             ) {
-              console.log(
-                roundValue.receivedArbitreName + ' === ' + receivedArbitreName
-              );
-              card.innerHTML = roundValue.receivedArbitreName;
-              if (roundValue.receivedWinner === 'player1') {
-                card.style.backgroundColor = 'blue';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'player2') {
-                card.style.backgroundColor = 'red';
-                card.innerText = receivedArbitreName;
-              } else if (roundValue.receivedWinner === 'equal') {
-                card.style.backgroundColor = 'green';
-                card.innerText = receivedArbitreName;
+              const roundValue = values[receivedroomid][3][index];
+              if (
+                roundValue &&
+                roundValue.receivedArbitreName === receivedArbitreName
+              ) {
+                console.log(
+                  roundValue.receivedArbitreName + ' === ' + receivedArbitreName
+                );
+                card.innerHTML = roundValue.receivedArbitreName;
+                if (roundValue.receivedWinner === 'player1') {
+                  card.style.backgroundColor = 'blue';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'player2') {
+                  card.style.backgroundColor = 'red';
+                  card.innerText = receivedArbitreName;
+                } else if (roundValue.receivedWinner === 'equal') {
+                  card.style.backgroundColor = 'green';
+                  card.innerText = receivedArbitreName;
+                }
               }
+            } else {
+              console.log('this round not played yet ...... ' + receivedRound);
             }
           });
         }
@@ -1029,7 +915,7 @@
           } else {
             popup.style.display = 'none';
           }
-        }, 2000);
+        }, 5000);
       }
 
       function showAlerted(type, round, winner) {
@@ -1056,8 +942,8 @@
         }
 
         let alertHtml = `<div class="alert alert-success popup" style="background-color: ${backgroundColor}; color: #fff;" role="alert">${message}</div>`;
+        $('#alert-container').empty();
         $('#alert-container').append(alertHtml);
-
         hidePopup();
       }
 
@@ -1081,27 +967,32 @@
 
           // Emit the selected round value to the server
           socket.emit('select-round', round);
-
-          const url3 = `${vurl}/${username}/tv/${roomid}`;
-          socket.emit('redirect-player-to-tv', url3);
-          console.log('redirect players to tv ' + url3);
+          const uri3 = geturu('tv');
+          socket.emit('redirect-player-to-tv', uri3);
+          console.log('redirect players to tv ' + uri3);
 
           /* showAlert(round); */
-          showAlert('round', round, '');
+          showAlerted('round', round, '');
 
           console.log('alert shown');
-          Valuecardout_playerred = 0;
+
+          //////////////////////////////////
           Valuecardout_playerbleu = 0;
           Valuecardyellow_playerbleu = 0;
-          Valuecardbleu_playerbleu = 0;
-          Valuecardred_playerbleu = 0;
+          Valuecardout_playerred = 0;
           Valuecardyellow_playerred = 0;
-          Valuecardbleu_playerred = 0;
-          Valuecardred_playerred = 0;
-
-          document.querySelectorAll('.backtozero').forEach((back) => {
-            back.innerHTML = 0;
-          });
+          document.getElementById(
+            'incrementValuecardout_playerbleu'
+          ).textContent = Valuecardout_playerbleu;
+          document.getElementById(
+            'incrementValuecardyellow_playerbleu'
+          ).textContent = Valuecardyellow_playerbleu;
+          document.getElementById(
+            'incrementValuecardout_playerred'
+          ).textContent = Valuecardout_playerred;
+          document.getElementById(
+            'incrementValuecardyellow_playerred'
+          ).textContent = Valuecardyellow_playerred;
         });
 
       function tv() {
@@ -1132,9 +1023,7 @@
       });
 
       /////////////////////////////////////////////////////////////////////////////////////////////////
-      //tv players redirections
-      const goTvPlayers = document.getElementById('tv-player-redirection');
-      goTvPlayers.addEventListener('click', () => {
+      function geturu(tv_pl) {
         const radioGroup = document.getElementsByName('options-outlined');
 
         let selectedValue;
@@ -1146,23 +1035,23 @@
             break;
           }
         }
-
         const pblue1 = document.getElementById('bleuplayer').value;
         const pblue2 = document.getElementById('bleuplayerassociation').value;
         const pblue3 = document.getElementById('categories').value;
-
-        ///
-
         const radiop4 = selectedValue;
-
-        /////
-
         const pred1 = document.getElementById('redplayer').value;
         const pred2 = document.getElementById('redplayerassociation').value;
 
-        const url2 = `${vurl}/${username}/tvplayers/${roomid}?param1=${pblue1}&param2=${pblue2}&param3=${pblue3}&param4=${radiop4}&param5=${pred1}&param6=${pred2}`;
-        socket.emit('redirect-tv-to-players', url2);
-        console.log('redirect to tv players ' + url2);
+        const url2 = `${vurl}/${username}/${tv_pl}/${roomid}?param1=${pblue1}&param2=${pblue2}&param3=${pblue3}&param4=${radiop4}&param5=${pred1}&param6=${pred2}`;
+        return url2;
+      }
+      //tv players redirections
+      const goTvPlayers = document.getElementById('tv-player-redirection');
+      goTvPlayers.addEventListener('click', () => {
+        const uri2 = geturu('tvplayers');
+        socket.emit('redirect-tv-to-players', uri2);
+
+        console.log('redirect to tv players ' + uri2);
       });
 
       /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1268,7 +1157,7 @@
 
       function winnerblue() {
         /* showAlert3('blue'); */
-        showAlert('end', '', 'player1');
+        showAlerted('end', '', 'player1');
 
         const param1 = document.getElementById('bleuplayer').value;
         console.log(param1);
@@ -1312,7 +1201,7 @@
 
       function winnerRed() {
         /* showAlert3('red'); */
-        showAlert('end', '', 'player2');
+        showAlerted('end', '', 'player2');
 
         const param1 = document.getElementById('redplayer').value;
         const param2 = document.getElementById('redplayerassociation').value;
@@ -1376,89 +1265,87 @@
         });
 
       /////////////////////////////////////////////////////////////////////////////////
-      /////////////////////////////////////////////////////////////////////////////////
-      // increment Value card blue plyredaer
-      var Valuecardyellow_playerbleu = 0,
-        Valuecardbleu_playerbleu = 0,
-        Valuecardred_playerbleu = 0;
-      function incrementValuecardyellow_playerbleu() {
-        Valuecardyellow_playerbleu++;
-        document.getElementById(
-          'incrementValuecardyellow_playerbleu'
-        ).innerHTML = Valuecardyellow_playerbleu;
+
+      // Function to increment card values for blue player
+      function incrementCardValueBlue(cardType) {
+        switch (cardType) {
+          case 'out':
+            valueCardOutPlayerBlue++;
+            document.getElementById(
+              'incrementValuecardout_playerbleu'
+            ).innerText = valueCardOutPlayerBlue;
+            break;
+          case 'yellow':
+            valueCardYellowPlayerBlue++;
+            document.getElementById(
+              'incrementValuecardyellow_playerbleu'
+            ).innerText = valueCardYellowPlayerBlue;
+            break;
+          case 'blue':
+            valueCardBluePlayerBlue++;
+            document.getElementById(
+              'incrementValuecardbleu_playerbleu'
+            ).innerText = valueCardBluePlayerBlue;
+            break;
+          case 'red':
+            valueCardRedPlayerBlue++;
+            document.getElementById(
+              'incrementValuecardred_playerbleu'
+            ).innerText = valueCardRedPlayerBlue;
+            break;
+          case 'countdown':
+            valueCardCountdownPlayerBlue++;
+            document.getElementById(
+              'incrementValuecardcountdown_playerbleu'
+            ).innerText = valueCardCountdownPlayerBlue;
+            break;
+          default:
+            console.error('Invalid card type for blue player.');
+        }
       }
-      function incrementValuecardbleu_playerbleu() {
-        Valuecardbleu_playerbleu++;
-        document.getElementById('incrementValuecardbleu_playerbleu').innerHTML =
-          Valuecardbleu_playerbleu;
-      }
-      function incrementValuecardred_playerbleu() {
-        Valuecardred_playerbleu++;
-        document.getElementById('incrementValuecardred_playerbleu').innerHTML =
-          Valuecardred_playerbleu;
-      }
-      function incrementValuecardcountdown_playerbleu() {
-        Valuecardcountdown_playerbleu++;
-        document.getElementById(
-          'incrementValuecardcountdown_playerbleu'
-        ).innerHTML = Valuecardcountdown_playerbleu;
-      }
-      var Valuecardcountdown_playerbleu = 0,
-        Valuecardout_playerbleu = 0;
-      //out bleu
-      function incrementValuecardout_playerbleu() {
-        Valuecardout_playerbleu++;
-        document.getElementById('incrementValuecardout_playerbleu').innerHTML =
-          Valuecardout_playerbleu;
-      }
-      //countdown bleu
-      function incrementValuecardcountdown_playerbleu() {
-        Valuecardcountdown_playerbleu++;
-        document.getElementById(
-          'incrementValuecardcountdown_playerbleu'
-        ).innerHTML = Valuecardcountdown_playerbleu;
-      }
-      // increment Value card red plyredaer
-      var Valuecardyellow_playerred = 0,
-        Valuecardbleu_playerred = 0,
-        Valuecardred_playerred = 0;
-      (Valuecardcountdown_playerred = 0), (Valuecardout_playerred = 0);
-      function incrementValuecardyellow_playerred() {
-        Valuecardyellow_playerred++;
-        document.getElementById(
-          'incrementValuecardyellow_playerred'
-        ).innerHTML = Valuecardyellow_playerred;
-      }
-      function incrementValuecardbleu_playerred() {
-        Valuecardbleu_playerred++;
-        document.getElementById('incrementValuecardbleu_playerred').innerHTML =
-          Valuecardbleu_playerred;
-      }
-      function incrementValuecardred_playerred() {
-        Valuecardred_playerred++;
-        document.getElementById('incrementValuecardred_playerred').innerHTML =
-          Valuecardred_playerred;
-      }
-      var Valuecardcountdown_playerred = 0,
-        Valuecardout_playerred = 0;
-      //out red
-      function incrementValuecardout_playerred() {
-        Valuecardout_playerred++;
-        document.getElementById('incrementValuecardout_playerred').innerHTML =
-          Valuecardout_playerred;
-      }
-      //countdown red
-      function incrementValuecardcountdown_playerred() {
-        Valuecardcountdown_playerred++;
-        document.getElementById(
-          'incrementValuecardcountdown_playerred'
-        ).innerHTML = Valuecardcountdown_playerred;
+
+      // Function to increment card values for red player
+      function incrementCardValueRed(cardType) {
+        switch (cardType) {
+          case 'out':
+            valueCardOutPlayerRed++;
+            document.getElementById(
+              'incrementValuecardout_playerred'
+            ).innerText = valueCardOutPlayerRed;
+            break;
+          case 'yellow':
+            valueCardYellowPlayerRed++;
+            document.getElementById(
+              'incrementValuecardyellow_playerred'
+            ).innerText = valueCardYellowPlayerRed;
+            break;
+          case 'blue':
+            valueCardBluePlayerRed++;
+            document.getElementById(
+              'incrementValuecardbleu_playerred'
+            ).innerText = valueCardBluePlayerRed;
+            break;
+          case 'red':
+            valueCardRedPlayerRed++;
+            document.getElementById(
+              'incrementValuecardred_playerred'
+            ).innerText = valueCardRedPlayerRed;
+            break;
+          case 'countdown':
+            valueCardCountdownPlayerRed++;
+            document.getElementById(
+              'incrementValuecardcountdown_playerred'
+            ).innerText = valueCardCountdownPlayerRed;
+            break;
+          default:
+            console.error('Invalid card type for red player.');
+        }
       }
 
       /* window.addEventListener('beforeunload', function (e) {
                      e.preventDefault();
                      e.returnValue = '';
-                   }); */
+          }); */
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
