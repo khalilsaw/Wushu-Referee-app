@@ -249,13 +249,15 @@
       socket.on('selected-round', () => {
         const rightArbElements = document.getElementsByClassName('right-arb');
         const leftArbElements = document.getElementsByClassName('left-arb');
+        const player1 = 0;
+        const player2 = 0;
 
         for (let i = 0; i < rightArbElements.length; i++) {
-          rightArbElements[i].innerHTML = 0;
+          rightArbElements[i].innerHTML = player1;
         }
 
         for (let i = 0; i < leftArbElements.length; i++) {
-          leftArbElements[i].innerHTML = 0;
+          leftArbElements[i].innerHTML = player2;
         }
       });
 
