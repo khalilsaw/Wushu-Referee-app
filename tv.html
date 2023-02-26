@@ -102,8 +102,8 @@
           "
         >
           <h1 style="font-weight: 900; margin-top: 5px">Player :</h1>
-          <span id="p1n" style="display: block">test</span>
-          <span id="p1asso">hest</span>
+          <span id="p1n" style="display: block"></span>
+          <span id="p1asso"></span>
         </div>
       </div>
       <!-- ------------------------- -->
@@ -125,8 +125,8 @@
           "
         >
           <h1 style="font-weight: 900; margin-top: 5px">Player :</h1>
-          <span id="p2n" style="display: block">test</span>
-          <span id="p2asso">hest</span>
+          <span id="p2n" style="display: block"></span>
+          <span id="p2asso"></span>
         </div>
       </div>
     </div>
@@ -272,7 +272,7 @@
         }
       });
 
-      socket.on('selected-round', () => {
+      function backtozero() {
         const rightArbElements = document.getElementsByClassName('right-arb');
         const leftArbElements = document.getElementsByClassName('left-arb');
 
@@ -282,6 +282,24 @@
 
         for (let i = 0; i < leftArbElements.length; i++) {
           leftArbElements[i].innerHTML = 0;
+        }
+      }
+
+      socket.on('selected-round', () => {
+        backtozero();
+      });
+
+      socket.on('out-card', (player) => {
+        if (player === 'player1') {
+          backtozero();
+          value_blue_pl++;
+          document.getElementById('value_blue_pl').innerHTML = value_blue_pl;
+        } else if (player === 'player2') {
+          backtozero();
+          value_red_pl++;
+          document.getElementById('value_red_pl').innerHTML = value_red_pl;
+        } else {
+          return;
         }
       });
 

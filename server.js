@@ -359,10 +359,15 @@ io.on('connection', (socket) => {
     });
 
     //outcard event
-    socket.on('outcard', (winnercolor) => {
+
+    socket.on('out-card', (player) => {
+      io.to(roomid).emit('out-card', player);
+      io.to(roomid).emit('out-card-zero-arbitre');
+    });
+    /* socket.on('outcard', (winnercolor) => {
       console.log('out card service ' + winnercolor);
       io.to(roomid).emit('outcardV2', winnercolor);
-    });
+    }); */
 
     socket.on('disconnect', () => {
       const usersInRoom = users.get(user.room);

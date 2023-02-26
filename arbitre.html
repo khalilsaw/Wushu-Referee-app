@@ -286,6 +286,17 @@
         }
       }
 
+      function backtoze() {
+        player1 = 0;
+        player2 = 0;
+        document.getElementById('player2area').innerHTML = player2;
+        document.getElementById('player1area').innerHTML = player1;
+      }
+
+      socket.on('out-card-zero-arbitre', () => {
+        backtoze();
+      });
+
       socket.on('selected-round', (round) => {
         selectedRound = round;
         document.getElementById(
@@ -293,11 +304,7 @@
         ).innerHTML = `Round : ${selectedRound}`;
 
         showAlert(selectedRound);
-
-        player1 = 0;
-        player2 = 0;
-        document.getElementById('player2area').innerHTML = player2;
-        document.getElementById('player1area').innerHTML = player1;
+        backtoze();
 
         console.log(selectedRound + ' but from arbitre');
       });
