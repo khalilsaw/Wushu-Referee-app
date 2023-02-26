@@ -1265,6 +1265,10 @@
               }
               showAlerted('winner', roundnow, 'player1');
               socket.emit('out-card', 'player1');
+              socket.emit('change-round-value', {
+                player: 'player1',
+                round: roundnow,
+              });
               document.getElementById(
                 'incrementValuecardout_playerbleu'
               ).innerText = 0;
@@ -1319,18 +1323,25 @@
         switch (cardType) {
           case 'out':
             valueCardOutPlayerRed++;
-            const divElement = document.getElementById(`roundwith${roundnow}`); // select the div element
-            const backgroundColor = divElement.style.backgroundColor; // get the background color of the div element
-            if (
-              backgroundColor === 'blue' ||
-              backgroundColor === 'red' ||
-              backgroundColor === 'green'
-            ) {
-              // ignore the div element if its background color is blue, red, or green
-              return;
-              console.log('Div element ignored.');
-            }
+
             if (valueCardOutPlayerRed == 2) {
+              const divElement = document.getElementById(
+                `roundwith${roundnow}`
+              ); // select the div element
+              const backgroundColor = divElement.style.backgroundColor; // get the background color of the div element
+              if (
+                backgroundColor === 'blue' ||
+                backgroundColor === 'red' ||
+                backgroundColor === 'green'
+              ) {
+                // ignore the div element if its background color is blue, red, or green
+                return;
+                console.log('Div element ignored.');
+              }
+              socket.emit('change-round-value', {
+                player: 'player2',
+                round: roundnow,
+              });
               showAlerted('winner', roundnow, 'player2');
               socket.emit('out-card', 'player2');
               document.getElementById(

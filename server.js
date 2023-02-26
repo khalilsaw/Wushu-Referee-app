@@ -135,6 +135,20 @@ io.on('connection', (socket) => {
       io.to(roomid).emit('arbitre-to-tv', referees[roomid]);
     });
     //666666666666666666666666666666666666666666666666666
+    socket.on('change-round-value', ({ player, round }) => {
+      const arbitreUsers = users
+        .get(roomid)
+        .filter((user) => user.role === 'arbitre');
+      arbitreUsers.forEach((arbitre) => {
+        const index = round - 1;
+        if (index === -1) {
+          index = 0;
+        }
+        console.log(index + ' : round');
+        arbitre.rounds[index] = player;
+        /* arbitre.rounds[index] = player; */
+      });
+    });
 
     socket.on('rounds-winner', () => {
       // Find all arbitre users and store their rounds in an object
