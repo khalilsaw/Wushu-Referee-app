@@ -1315,50 +1315,19 @@
                 backgroundColor === 'red' ||
                 backgroundColor === 'green'
               ) {
-                // ignore the div element if its background color is blue, red, or green
-                console.log('Div element ignored.');
-                $('#confirmation-modal .modal-body').text(
-                  'Selectionner la nouvelle ronde ?'
-                );
-                $('#confirmation-modal').modal('show');
-                setTimeout(() => {
-                  $('#confirmation-modal').modal('hide');
-                }, 2000);
+                alert('change de rond ?');
                 return;
               }
-              // Display confirmation modal if both players have reached 3 cards
-              $('#confirmation-modal .modal-body').text(
-                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
-              );
-              $('#confirmation-modal').modal('show');
-
-              $('#confirmation-modal .btn-confirm').click(() => {
-                // Call the winnerblue function if the user confirms
-                const divElement = document.getElementById(
-                  `roundwith${roundnow}`
-                ); // select the div element
-                socket.emit('change-round-value', {
-                  player: 'player2',
-                  round: roundnow,
-                });
-                showAlerted('winner', roundnow, 'player2');
-                socket.emit('out-card', 'player2');
-                divElement.style.backgroundColor = 'red';
-                valueCardOutPlayerBlue = 1;
-                document.getElementById(
-                  'incrementValuecardout_playerbleu'
-                ).innerText = valueCardOutPlayerBlue;
-                $('#confirmation-modal').modal('hide');
+              // ignore the div element if its background color is blue, red, or green
+              console.log('Div element ignored.');
+              // Call the winnerblue function if the user confirms
+              socket.emit('change-round-value', {
+                player: 'player2',
+                round: roundnow,
               });
-
-              $('#confirmation-modal .btn-cancel').click(() => {
-                // Do nothing if the user cancels
-                $('#confirmation-modal').modal('hide');
-                valueCardOutPlayerBlue = 1;
-                document.getElementById(
-                  'incrementValuecardout_playerbleu'
-                ).innerText = valueCardOutPlayerBlue;
-              });
+              showAlerted('winner', roundnow, 'player2');
+              socket.emit('out-card', 'player2');
+              divElement.style.backgroundColor = 'red';
             }
             document.getElementById(
               'incrementValuecardout_playerbleu'
@@ -1465,45 +1434,18 @@
                 backgroundColor === 'red' ||
                 backgroundColor === 'green'
               ) {
-                // ignore the div element if its background color is blue, red, or green
-                console.log('Div element ignored.');
-                $('#confirmation-modal .modal-body').text(
-                  'Selectionner la nouvelle ronde ?'
-                );
-                $('#confirmation-modal').modal('show');
-                $('#confirmation-modal').modal('hide');
+                alert('change de rond ?');
                 return;
               }
 
-              // Display confirmation modal if both players have reached 3 cards
-              $('#confirmation-modal .modal-body').text(
-                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
-              );
-              $('#confirmation-modal').modal('show');
-
-              $('#confirmation-modal .btn-confirm').click(() => {
-                showAlerted('winner', roundnow, 'player1');
-                socket.emit('out-card', 'player1');
-                socket.emit('change-round-value', {
-                  player: 'player1',
-                  round: roundnow,
-                });
-                divElement.style.backgroundColor = 'blue';
-                document.getElementById(
-                  'incrementValuecardout_playerred'
-                ).innerText = valueCardOutPlayerRed;
-                $('#confirmation-modal').modal('hide');
+              showAlerted('winner', roundnow, 'player1');
+              socket.emit('out-card', 'player1');
+              socket.emit('change-round-value', {
+                player: 'player1',
+                round: roundnow,
               });
-              $('#confirmation-modal .btn-cancel').click(() => {
-                // Do nothing if the user cancels
-                $('#confirmation-modal').modal('hide');
-                valueCardOutPlayerRed = 1;
-                document.getElementById(
-                  'incrementValuecardout_playerred'
-                ).innerText = valueCardOutPlayerRed;
-              });
+              divElement.style.backgroundColor = 'blue';
             }
-
             document.getElementById(
               'incrementValuecardout_playerred'
             ).innerText = valueCardOutPlayerRed;
