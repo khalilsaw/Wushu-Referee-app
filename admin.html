@@ -638,22 +638,30 @@
       <div class="row">
         <div class="col text-bg-primary" style="font-size: 2rem">
           <span id="incrementValuecardout_playerbleu">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardyellow_playerbleu">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardbleu_playerbleu">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardred_playerbleu">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
         </div>
 
         <div class="col text-bg-danger" style="font-size: 2rem">
           <span id="incrementValuecardout_playerred">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardyellow_playerred">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardbleu_playerred">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <span id="incrementValuecardred_playerred">0</span>
+          <i class="bi bi-bootstrap-reboot"></i>
         </div>
       </div>
     </div>
@@ -697,6 +705,48 @@
             ></i>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="confirmation-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="confirmation-modal-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmation-modal-label">
+              Confirmation
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="color: #000">
+            Are you sure you want to declare a winner?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary btn-cancel"
+              data-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary btn-confirm">
+              Confirm
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -925,7 +975,13 @@
         let alertHtml = `<div class="alert alert-success popup" style="background-color: ${backgroundColor}; color: #fff;" role="alert">${message}</div>`;
         $('#alert-container').empty();
         $('#alert-container').append(alertHtml);
-        hidePopup();
+        if (type === 'end') {
+          setTimeout(function () {
+            hidePopup();
+          }, 100000);
+        } else {
+          hidePopup();
+        }
       }
 
       //////////////////////////////////////////////////////////////////////////////////////////////
@@ -1249,7 +1305,7 @@
         switch (cardType) {
           case 'out':
             valueCardOutPlayerBlue++;
-            if (valueCardOutPlayerBlue == 2) {
+            if (valueCardOutPlayerBlue >= 2) {
               const divElement = document.getElementById(
                 `roundwith${roundnow}`
               ); // select the div element
@@ -1260,26 +1316,55 @@
                 backgroundColor === 'green'
               ) {
                 // ignore the div element if its background color is blue, red, or green
-                return;
                 console.log('Div element ignored.');
+                $('#confirmation-modal .modal-body').text(
+                  'Selectionner la nouvelle ronde ?'
+                );
+                $('#confirmation-modal').modal('show');
+                setTimeout(() => {
+                  $('#confirmation-modal').modal('hide');
+                }, 2000);
+                return;
               }
-              showAlerted('winner', roundnow, 'player1');
-              socket.emit('out-card', 'player1');
-              socket.emit('change-round-value', {
-                player: 'player1',
-                round: roundnow,
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                // Call the winnerblue function if the user confirms
+                const divElement = document.getElementById(
+                  `roundwith${roundnow}`
+                ); // select the div element
+                socket.emit('change-round-value', {
+                  player: 'player2',
+                  round: roundnow,
+                });
+                showAlerted('winner', roundnow, 'player2');
+                socket.emit('out-card', 'player2');
+                divElement.style.backgroundColor = 'red';
+                valueCardOutPlayerBlue = 1;
+                document.getElementById(
+                  'incrementValuecardout_playerbleu'
+                ).innerText = valueCardOutPlayerBlue;
+                $('#confirmation-modal').modal('hide');
               });
-              document.getElementById(
-                'incrementValuecardout_playerbleu'
-              ).innerText = 0;
-              document.getElementById(
-                `roundwith${roundnow}`
-              ).style.backgroundColor = 'blue';
+
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardOutPlayerBlue = 1;
+                document.getElementById(
+                  'incrementValuecardout_playerbleu'
+                ).innerText = valueCardOutPlayerBlue;
+              });
             }
             document.getElementById(
               'incrementValuecardout_playerbleu'
             ).innerText = valueCardOutPlayerBlue;
             break;
+
           case 'yellow':
             valueCardYellowPlayerBlue++;
             document.getElementById(
@@ -1288,12 +1373,58 @@
             break;
           case 'blue':
             valueCardBluePlayerBlue++;
+            // Check if both blue and red card values are 3 or more
+
+            if (valueCardBluePlayerBlue >= 3) {
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                // Call the winnerblue function if the user confirms
+                winnerRed(roundnow);
+                $('#confirmation-modal').modal('hide');
+              });
+
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardBluePlayerBlue = 2;
+                document.getElementById(
+                  'incrementValuecardbleu_playerbleu'
+                ).innerText = valueCardBluePlayerBlue;
+              });
+            }
             document.getElementById(
               'incrementValuecardbleu_playerbleu'
             ).innerText = valueCardBluePlayerBlue;
             break;
           case 'red':
             valueCardRedPlayerBlue++;
+            if (valueCardRedPlayerBlue >= 3) {
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                // Call the winnerblue function if the user confirms
+                winnerRed(roundnow);
+                $('#confirmation-modal').modal('hide');
+              });
+
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardRedPlayerBlue = 2;
+                document.getElementById(
+                  'incrementValuecardred_playerbleu'
+                ).innerText = valueCardRedPlayerBlue;
+              });
+            }
             document.getElementById(
               'incrementValuecardred_playerbleu'
             ).innerText = valueCardRedPlayerBlue;
@@ -1324,7 +1455,7 @@
           case 'out':
             valueCardOutPlayerRed++;
 
-            if (valueCardOutPlayerRed == 2) {
+            if (valueCardOutPlayerRed >= 2) {
               const divElement = document.getElementById(
                 `roundwith${roundnow}`
               ); // select the div element
@@ -1335,21 +1466,42 @@
                 backgroundColor === 'green'
               ) {
                 // ignore the div element if its background color is blue, red, or green
-                return;
                 console.log('Div element ignored.');
+                $('#confirmation-modal .modal-body').text(
+                  'Selectionner la nouvelle ronde ?'
+                );
+                $('#confirmation-modal').modal('show');
+                $('#confirmation-modal').modal('hide');
+                return;
               }
-              socket.emit('change-round-value', {
-                player: 'player2',
-                round: roundnow,
+
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                showAlerted('winner', roundnow, 'player1');
+                socket.emit('out-card', 'player1');
+                socket.emit('change-round-value', {
+                  player: 'player1',
+                  round: roundnow,
+                });
+                divElement.style.backgroundColor = 'blue';
+                document.getElementById(
+                  'incrementValuecardout_playerred'
+                ).innerText = valueCardOutPlayerRed;
+                $('#confirmation-modal').modal('hide');
               });
-              showAlerted('winner', roundnow, 'player2');
-              socket.emit('out-card', 'player2');
-              document.getElementById(
-                'incrementValuecardout_playerred'
-              ).innerText = 0;
-              document.getElementById(
-                `roundwith${roundnow}`
-              ).style.backgroundColor = 'red';
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardOutPlayerRed = 1;
+                document.getElementById(
+                  'incrementValuecardout_playerred'
+                ).innerText = valueCardOutPlayerRed;
+              });
             }
 
             document.getElementById(
@@ -1364,12 +1516,56 @@
             break;
           case 'blue':
             valueCardBluePlayerRed++;
+            if (valueCardBluePlayerRed >= 3) {
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                // Call the winnerblue function if the user confirms
+                winnerblue(roundnow);
+                $('#confirmation-modal').modal('hide');
+              });
+
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardBluePlayerRed = 2;
+                document.getElementById(
+                  'incrementValuecardbleu_playerred'
+                ).innerText = valueCardBluePlayerRed;
+              });
+            }
             document.getElementById(
               'incrementValuecardbleu_playerred'
             ).innerText = valueCardBluePlayerRed;
             break;
           case 'red':
             valueCardRedPlayerRed++;
+            if (valueCardRedPlayerRed >= 3) {
+              // Display confirmation modal if both players have reached 3 cards
+              $('#confirmation-modal .modal-body').text(
+                'Êtes-vous sûr(e) de vouloir déclarer un(e) gagnant(e) ?'
+              );
+              $('#confirmation-modal').modal('show');
+
+              $('#confirmation-modal .btn-confirm').click(() => {
+                // Call the winnerblue function if the user confirms
+                winnerblue(roundnow);
+                $('#confirmation-modal').modal('hide');
+              });
+
+              $('#confirmation-modal .btn-cancel').click(() => {
+                // Do nothing if the user cancels
+                $('#confirmation-modal').modal('hide');
+                valueCardRedPlayerRed = 2;
+                document.getElementById(
+                  'incrementValuecardred_playerred'
+                ).innerText = valueCardRedPlayerRed;
+              });
+            }
             document.getElementById(
               'incrementValuecardred_playerred'
             ).innerText = valueCardRedPlayerRed;
@@ -1386,9 +1582,9 @@
       }
 
       /* window.addEventListener('beforeunload', function (e) {
-                     e.preventDefault();
-                     e.returnValue = '';
-          }); */
+                           e.preventDefault();
+                           e.returnValue = '';
+                }); */
     </script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
