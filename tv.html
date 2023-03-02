@@ -177,6 +177,8 @@
       const username = url.pathname.split('/')[1];
       const role = url.pathname.split('/')[2];
       const roomid = url.pathname.split('/')[3];
+      let roundResults = {}; // create an empty object to store the round results
+      let round_s;
 
       socket.on('connect', () => {
         console.log(
@@ -285,11 +287,20 @@
         }
       }
 
-      socket.on('selected-round', () => {
+      socket.on('selected-round', (round) => {
+        round_s = round;
+        roundResults[round_s] = ''; // set the initial value for the round to an empty string
         backtozero();
       });
 
       socket.on('out-card', (player) => {
+        let round = Object.keys(roundResults).pop(); // get the last key in the roundResults object
+        if (roundResults[round_s]) {
+          // if there is already a result for the current round, return without updating the scores
+          return;
+        }
+        roundResults[round] =
+          value_blue_pl > value_red_pl ? 'player1' : 'player2'; // set the winner for the current round
         if (player === 'player1') {
           backtozero();
           value_blue_pl++;

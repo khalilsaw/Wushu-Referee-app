@@ -375,6 +375,7 @@ io.on('connection', (socket) => {
     //outcard event
 
     socket.on('out-card', (player) => {
+      
       io.to(roomid).emit('out-card', player);
       io.to(roomid).emit('out-card-zero-arbitre');
     });
