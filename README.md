@@ -107,11 +107,11 @@ This project is licensed under the Apache-2.0 License. See the [LICENSE](./LICEN
 
 ## Contact
 
-For questions or feedback, please open an issue on the repository or contact the maintainer at [your-email@example.com].
+For questions or feedback, please open an issue on the repository or contact the maintainer at khalilbadre5@gmail.com .
 
 ## Acknowledgments
 
-We appreciate all contributors and users of the Taekwondo Referee App. Special thanks to the Taekwondo community for their support and feedback.
+We appreciate all contributors and users of the wushu Referee App. Special thanks to the Taekwondo community for their support and feedback.
 
 
 
